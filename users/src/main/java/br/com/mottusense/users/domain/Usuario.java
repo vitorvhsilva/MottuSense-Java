@@ -36,6 +36,7 @@ public class Usuario {
     private LocalDateTime dataCriacaoUsuario;
 
     @OneToOne
+    @JoinColumn(name = "id_configuracao_usuario")
     private ConfiguracaoUsuario configuracaoUsuario;
 
     @ManyToMany

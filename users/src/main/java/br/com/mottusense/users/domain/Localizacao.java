@@ -25,6 +25,6 @@ public class Localizacao {
     @Column(name = "regiao_localizacao")
     private String regiaoLocalizacao;
 
-    @OneToOne
+    @OneToOne(mappedBy = "localizacao")
     private Filial filial;
 }

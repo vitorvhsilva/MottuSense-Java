@@ -21,6 +21,6 @@ public class ConfiguracaoUsuario {
     @Column(name = "alerta_moto_preparada_alugada", nullable = false)
     private Boolean alertaMotoPreparadaAlugada;
 
-    @OneToOne
+    @OneToOne(mappedBy = "configuracaoUsuario")
     private Usuario usuario;
 }

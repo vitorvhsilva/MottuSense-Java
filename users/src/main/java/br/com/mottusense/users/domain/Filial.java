@@ -20,9 +20,10 @@ public class Filial {
     @Column(name = "nome_filial", nullable = false)
     private String nomeFilial;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "filiais")
     private List<Usuario> usuario;
 
     @OneToOne
+    @JoinColumn(name = "id_localizacao")
     private Localizacao localizacao;
 }
