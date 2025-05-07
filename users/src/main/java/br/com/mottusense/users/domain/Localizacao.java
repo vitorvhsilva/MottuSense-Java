@@ -14,7 +14,7 @@ public class Localizacao {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_localizacao")
     private String idLocalizacao;
-    @Column(name = "cep_localizacao")
+    @Column(name = "cep_localizacao", nullable = false)
     private String cepLocalizacao;
     @Column(name = "logradouro_localizacao")
     private String logradouroLocalizacao;
