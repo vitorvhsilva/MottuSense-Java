@@ -1,5 +1,6 @@
 package br.com.mottusense.users.service;
 
+import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.domain.Usuario;
 import br.com.mottusense.users.repository.UsuarioRepository;
 
@@ -22,5 +23,9 @@ public class UsuarioService {
 
     public void deletarUsuario(int id){
         repository.deleteAllById(id);
+    }
+
+    public Usuario buscarPorId(int id){
+        return  repository.findById(String.valueOf(id)).orElse(null); // Ver isso com o vito
     }
 }

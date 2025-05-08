@@ -23,4 +23,8 @@ public class FilialService {
     public void deletarFilial(int id){
         repository.deleteAllById(id);
     }
+
+    public Filial buscarPorId(int id){
+        return  repository.findById(String.valueOf(id)).orElse(null); // Ver isso com o vito
+    }
 }
