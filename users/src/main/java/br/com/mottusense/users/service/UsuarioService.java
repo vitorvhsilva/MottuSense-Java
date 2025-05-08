@@ -9,6 +9,8 @@ import java.util.List;
 public class UsuarioService {
     private UsuarioRepository repository;
 
+    // Fazer o save com base na aula 08/05 que não é necessário cadastrar e atualizar, pode fazer apenas um save que servirá para os dois
+
     public void cadastrarUsuario(Usuario usuario) {
         repository.save(usuario);
     }

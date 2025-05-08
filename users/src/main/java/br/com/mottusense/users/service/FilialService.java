@@ -8,6 +8,8 @@ import java.util.List;
 public class FilialService {
     private FilialRepository repository;
 
+    // Fazer o save com base na aula 08/05 que não é necessário cadastrar e atualizar, pode fazer apenas um save que servirá para os dois
+
     public void cadastrarFilial(Filial filial) {
         repository.save(filial);
     }
