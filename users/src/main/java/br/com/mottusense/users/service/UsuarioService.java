@@ -5,29 +5,28 @@ import br.com.mottusense.users.domain.Usuario;
 import br.com.mottusense.users.repository.UsuarioRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UsuarioService {
+
     private UsuarioRepository repository;
 
-    // Fazer o save com base na aula 08/05 que não é necessário cadastrar e atualizar, pode fazer apenas um save que servirá para os dois
-
-    public void cadastrarUsuario(Usuario usuario) {
-        repository.save(usuario);
+    public Usuario save(Usuario usuario) {
+        return repository.save(usuario);
     }
 
-    public void atualizarUsuario(Usuario usuario){
-        repository.save(usuario);
-    }
-
-    public List<Usuario> listarUsuarios(){
+    public List<Usuario> findAll() {
         return repository.findAll();
     }
 
-    public void deletarUsuario(int id){
-        repository.deleteAllById(id);
+    public Optional<Usuario> findById(Long id) {
+        return repository.findById(String.valueOf(id));
     }
 
-    public Usuario buscarPorId(int id){
-        return  repository.findById(String.valueOf(id)).orElse(null); // Ver isso com o vito
+    public void deleteById(Long id) {
+        repository.deleteById(String.valueOf(id));
     }
+
+
+    // Perguntar pro vito sobre esse valueof
 }

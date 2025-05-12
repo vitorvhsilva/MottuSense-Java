@@ -4,29 +4,28 @@ import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.repository.FilialRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FilialService {
+
     private FilialRepository repository;
 
-    // Fazer o save com base na aula 08/05 que não é necessário cadastrar e atualizar, pode fazer apenas um save que servirá para os dois
-
-    public void cadastrarFilial(Filial filial) {
-        repository.save(filial);
+    public Filial save(Filial filial) {
+        return repository.save(filial);
     }
 
-    public void atualizarFilial(Filial filial){
-        repository.save(filial);
-    }
-
-    public List<Filial> listarFiliais(){
+    public List<Filial> findAll() {
         return repository.findAll();
     }
 
-    public void deletarFilial(int id){
-        repository.deleteAllById(id);
+    public Optional<Filial> findById(Long id) {
+        return repository.findById(String.valueOf(id));
     }
 
-    public Filial buscarPorId(int id){
-        return  repository.findById(String.valueOf(id)).orElse(null); // Ver isso com o vito
+    public void deleteById(Long id) {
+        repository.deleteById(String.valueOf(id));
     }
+
+
+    // Perguntar pro vito sobre esse valueof
 }
