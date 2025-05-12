@@ -16,7 +16,7 @@ public class FilialController {
     private FilialService filialService;
 
     @PostMapping
-    public void cadastrarFilial(@RequestBody Filial filial){
+    public void cadastrarFilial( @RequestBody Filial filial){
         filialService.cadastrarFilial(filial);
     }
 
@@ -40,5 +40,6 @@ public class FilialController {
     public void deletar(@PathVariable int id){
         filialService.deletarFilial(id);
     }
+
 
 }
