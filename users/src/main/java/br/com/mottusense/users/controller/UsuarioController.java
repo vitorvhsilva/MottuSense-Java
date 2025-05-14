@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -16,28 +17,28 @@ public class UsuarioController {
 
     @PostMapping
     public void cadastrarUsuario(@RequestBody Usuario usuario){
-        usuarioService.cadastrarUsuario(usuario);
+        usuarioService.save(usuario);
     }
 
     @GetMapping
     public List<Usuario> listarUsuarios(){
-        return usuarioService.listarUsuarios();
+        return usuarioService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Usuario buscarUsuarioPorId(@PathVariable int id){
-        return usuarioService.buscarPorId(id);
+    public Optional<Usuario> buscarUsuarioPorId(@PathVariable String id){
+        return usuarioService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public void atualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario){
+    public void atualizarUsuario(@PathVariable String id, @RequestBody Usuario usuario){
         usuario.setIdUsuario(String.valueOf(id));
-        usuarioService.atualizarUsuario(usuario);
+        usuarioService.save(usuario);
     }
 
     @DeleteMapping("/{id}")
-    public void deletarUsuario(@PathVariable int id){
-        usuarioService.deletarUsuario(id);
+    public void deletarUsuario(@PathVariable String id){
+        usuarioService.deleteById(id);
     }
 
 }

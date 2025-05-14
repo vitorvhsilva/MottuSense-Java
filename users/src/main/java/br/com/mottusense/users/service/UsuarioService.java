@@ -19,13 +19,14 @@ public class UsuarioService {
         return repository.findAll();
     }
 
-    public Optional<Usuario> findById(Long id) {
-        return repository.findById(String.valueOf(id));
+    public Optional<Usuario> findById(String id) {
+        return repository.findById(id);
     }
 
-    public void deleteById(Long id) {
-        repository.deleteById(String.valueOf(id));
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
+
 
 
     // Perguntar pro vito sobre esse valueof

@@ -18,12 +18,12 @@ public class FilialService {
         return repository.findAll();
     }
 
-    public Optional<Filial> findById(Long id) {
-        return repository.findById(String.valueOf(id));
+    public Optional<Filial> findById(String id) {
+        return repository.findById(id);
     }
 
-    public void deleteById(Long id) {
-        repository.deleteById(String.valueOf(id));
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
 
 

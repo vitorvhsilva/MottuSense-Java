@@ -20,7 +20,7 @@ public class LocalizacaoService {
         return repository.findAll();
     }
 
-    public Optional<Localizacao> buscarPorId(int id){
-        return repository.findById(String.valueOf(id));
+    public Optional<Localizacao> buscarPorId(String id){
+        return repository.findById(id);
     }
 }
