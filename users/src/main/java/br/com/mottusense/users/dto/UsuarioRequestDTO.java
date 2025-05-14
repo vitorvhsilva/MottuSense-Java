@@ -3,10 +3,8 @@ package br.com.mottusense.users.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
 
-
-public class UsuarioDTO {
+public class UsuarioRequestDTO {
     @NotBlank(message = "É necessário digitar um nome de usuário")
     @Size(min = 3, message = "O nome deve ter mais de 3 caracteres;")
     private String nome;
@@ -34,6 +32,22 @@ public class UsuarioDTO {
     private Integer mes;
     private Integer ano;
 
+
+    public UsuarioRequestDTO(){
+
+    }
+
+    public UsuarioRequestDTO(String nome, String cpf, String telefone, String email, String senha, String cep, Integer dia, Integer mes, Integer ano) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.cep = cep;
+        this.dia = dia;
+        this.mes = mes;
+        this.ano = ano;
+    }
 
     public String getNome() {
         return nome;
