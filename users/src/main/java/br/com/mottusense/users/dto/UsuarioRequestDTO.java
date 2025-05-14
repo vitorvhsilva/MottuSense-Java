@@ -2,8 +2,9 @@ package br.com.mottusense.users.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-
+@Data
 public class UsuarioRequestDTO {
     @NotBlank(message = "É necessário digitar um nome de usuário")
     @Size(min = 3, message = "O nome deve ter mais de 3 caracteres;")
@@ -31,93 +32,4 @@ public class UsuarioRequestDTO {
     private Integer dia;
     private Integer mes;
     private Integer ano;
-
-
-    public UsuarioRequestDTO(){
-
-    }
-
-    public UsuarioRequestDTO(String nome, String cpf, String telefone, String email, String senha, String cep, Integer dia, Integer mes, Integer ano) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.email = email;
-        this.senha = senha;
-        this.cep = cep;
-        this.dia = dia;
-        this.mes = mes;
-        this.ano = ano;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public Integer getDia() {
-        return dia;
-    }
-
-    public void setDia(Integer dia) {
-        this.dia = dia;
-    }
-
-    public Integer getMes() {
-        return mes;
-    }
-
-    public void setMes(Integer mes) {
-        this.mes = mes;
-    }
-
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
-        this.ano = ano;
-    }
 }

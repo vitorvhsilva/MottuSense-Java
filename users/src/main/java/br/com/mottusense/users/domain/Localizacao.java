@@ -27,4 +27,6 @@ public class Localizacao {
 
     @OneToOne(mappedBy = "localizacao")
     private Filial filial;
+
+
 }
