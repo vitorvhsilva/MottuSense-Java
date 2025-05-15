@@ -6,8 +6,10 @@ import br.com.mottusense.users.dto.UsuarioResponseDTO;
 import br.com.mottusense.users.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +29,14 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO dto){
         Usuario usuario = mapper.map(dto, Usuario.class);
         LocalDate dataNasc = LocalDate.of(dto.getAno(), dto.getMes(), dto.getDia());
-        Usuario usuarioSalvo = usuarioService.save(usuario, dataNasc); // Fazer os outros com base nesse
+        Usuario usuarioSalvo = usuarioService.save(usuario, dataNasc);
+        UsuarioResponseDTO rDTO = mapper.map(usuarioSalvo, UsuarioResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(rDTO); // Fazer os outros com base nesse
     }
 
     @GetMapping
-    public List<Usuario> listarUsuarios(){
-        return usuarioService.findAll();
+    public ResponseEntity<List<UsuarioResponseDTO>> pegarTodosUsuarios() {
+        List<Usuario> usuarios = usuarioService.findAll();
     }
 
     @GetMapping("/{id}")
