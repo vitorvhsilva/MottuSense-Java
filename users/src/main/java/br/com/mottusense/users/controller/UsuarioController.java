@@ -6,16 +6,13 @@ import br.com.mottusense.users.dto.UsuarioResponseDTO;
 import br.com.mottusense.users.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -35,24 +32,40 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> pegarTodosUsuarios() {
-        List<Usuario> usuarios = usuarioService.findAll();
+    public ResponseEntity<List<UsuarioResponseDTO>> getAllUsers() {
+        List<Usuario> users = usuarioService.findAll();
+        List<UsuarioResponseDTO> responseDtos = users.stream()
+                .map(usuario -> mapper.map(usuario, UsuarioResponseDTO.class))
+                .toList();
+        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/{id}")
-    public Optional<Usuario> buscarUsuarioPorId(@PathVariable String id){
-        return usuarioService.findById(id);
+    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorId(@PathVariable String id){
+        return usuarioService.findById(id)
+                .map(usuario -> ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public void atualizarUsuario(@PathVariable String id, @RequestBody Usuario usuario){
-        usuario.setIdUsuario(String.valueOf(id));
-        usuarioService.save(usuario);
+    public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable String id, @Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
+        return usuarioService.findById(id)
+                .map(usuario -> {
+                    LocalDate dataNasc = LocalDate.of(usuarioRequestDTO.getAno(), usuarioRequestDTO.getMes(), usuarioRequestDTO.getDia());
+                    usuario.setNomeUsuario(usuarioRequestDTO.getNome());
+                    Usuario atualizarUsuario = usuarioService.save(usuario, dataNasc );
+                    return ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void deletarUsuario(@PathVariable String id){
-        usuarioService.deleteById(id);
+    public ResponseEntity<Void> deletarUsuario(@PathVariable String id){
+        if(usuarioService.findById(id).isPresent()) {
+            usuarioService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
