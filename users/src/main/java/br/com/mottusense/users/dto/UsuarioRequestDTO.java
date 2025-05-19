@@ -28,8 +28,12 @@ public class UsuarioRequestDTO {
     @Size(min = 8, max = 8, message = "O CEP deve conter 8 digitos")
     private String cep;
 
-    @NotBlank(message = "É necessário digitar a sua data de nascimento")
+    @NotBlank(message = "É necessário digitar o dia de sua data de nascimento")
     private Integer dia;
+
+    @NotBlank(message = "É necessário digitar o mes de sua data de nascimento")
     private Integer mes;
+
+    @NotBlank(message = "É necessário digitar o ano de sua data de nascimento")
     private Integer ano;
 }
