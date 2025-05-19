@@ -2,27 +2,29 @@ package br.com.mottusense.users.service;
 
 import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.repository.FilialRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class FilialService {
 
     private FilialRepository repository;
 
-    public Filial save(Filial filial) {
+    public Filial salvar(Filial filial) {
         return repository.save(filial);
     }
 
-    public List<Filial> findAll() {
+    public List<Filial> listarFiliais() {
         return repository.findAll();
     }
 
-    public Optional<Filial> findById(String id) {
+    public Optional<Filial> listarPorId(String id) {
         return repository.findById(id);
     }
 
-    public void deleteById(String id) {
+    public void deletarPorId(String id) {
         repository.deleteById(id);
     }
 
