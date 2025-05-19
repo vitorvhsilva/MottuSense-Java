@@ -2,44 +2,68 @@ package br.com.mottusense.users.controller;
 
 
 import br.com.mottusense.users.domain.Filial;
+import br.com.mottusense.users.dto.FilialRequestDTO;
+import br.com.mottusense.users.dto.FilialResponseDTO;
 import br.com.mottusense.users.service.FilialService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/filiais")
 public class FilialController {
 
-    @Autowired
     private FilialService filialService;
+    private ModelMapper mapper;
 
     @PostMapping
-    public void cadastrarFilial( @RequestBody Filial filial){
-        filialService.save(filial);
+    public ResponseEntity<FilialResponseDTO> cadastrarFilial(@RequestBody FilialRequestDTO filialRequestDTO){
+        Filial filial = mapper.map(filialRequestDTO, Filial.class);
+        Filial filialSalva = filialService.save(filial);
+        FilialResponseDTO rDTO = mapper.map(filialSalva, FilialResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
     }
 
     @GetMapping
-    public List<Filial> listarFiliais(){
-        return filialService.findAll();
+    public ResponseEntity<List<FilialResponseDTO>> listarFiliais(){
+        List<Filial> filiais = filialService.findAll();
+        List<FilialResponseDTO> responseDTOS = filiais.stream()
+                .map(filial -> mapper.map(filial, FilialResponseDTO.class))
+                .toList();
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @GetMapping("/{id}")
-    public Optional<Filial> buscarFilialPorId(@PathVariable String id){
-        return filialService.findById(id);
+    public ResponseEntity<FilialResponseDTO> buscarFilialPorId(@PathVariable String id){
+        return filialService.findById(id)
+                .map(filial -> ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public void atualizarFilial(@PathVariable String id, @RequestBody Filial filial){
-        filial.setIdFilial(String.valueOf(id)); // Ver isso c o vito
-        filialService.save(filial);
+    public ResponseEntity<FilialResponseDTO> atualizarFilial(@PathVariable String id, @Valid @RequestBody FilialRequestDTO filialRequestDTO){
+        return filialService.findById(id)
+                .map(filial -> {
+                    filial.setNomeFilial(filialRequestDTO.getNome());
+                    Filial atualizarFilial = filialService.save(filial);
+                    return ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable String id){
-        filialService.deleteById(id);
+    public ResponseEntity<Void> deletarFilial(@PathVariable String id){
+        if(filialService.findById(id).isPresent()) {
+            filialService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
