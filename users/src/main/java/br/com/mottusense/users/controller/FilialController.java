@@ -25,14 +25,14 @@ public class FilialController {
     @PostMapping
     public ResponseEntity<FilialResponseDTO> cadastrarFilial(@RequestBody FilialRequestDTO filialRequestDTO){
         Filial filial = mapper.map(filialRequestDTO, Filial.class);
-        Filial filialSalva = filialService.save(filial);
+        Filial filialSalva = filialService.salvar(filial);
         FilialResponseDTO rDTO = mapper.map(filialSalva, FilialResponseDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
     }
 
     @GetMapping
     public ResponseEntity<List<FilialResponseDTO>> listarFiliais(){
-        List<Filial> filiais = filialService.findAll();
+        List<Filial> filiais = filialService.listarFiliais();
         List<FilialResponseDTO> responseDTOS = filiais.stream()
                 .map(filial -> mapper.map(filial, FilialResponseDTO.class))
                 .toList();
@@ -41,17 +41,17 @@ public class FilialController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FilialResponseDTO> buscarFilialPorId(@PathVariable String id){
-        return filialService.findById(id)
+        return filialService.listarPorId(id)
                 .map(filial -> ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<FilialResponseDTO> atualizarFilial(@PathVariable String id, @Valid @RequestBody FilialRequestDTO filialRequestDTO){
-        return filialService.findById(id)
+        return filialService.listarPorId(id)
                 .map(filial -> {
                     filial.setNomeFilial(filialRequestDTO.getNome());
-                    Filial atualizarFilial = filialService.save(filial);
+                    Filial atualizarFilial = filialService.salvar(filial);
                     return ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -59,8 +59,8 @@ public class FilialController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarFilial(@PathVariable String id){
-        if(filialService.findById(id).isPresent()) {
-            filialService.deleteById(id);
+        if(filialService.listarPorId(id).isPresent()) {
+            filialService.deletarPorId(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

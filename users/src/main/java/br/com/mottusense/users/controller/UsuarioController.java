@@ -26,14 +26,14 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO dto){
         Usuario usuario = mapper.map(dto, Usuario.class);
         LocalDate dataNasc = LocalDate.of(dto.getAno(), dto.getMes(), dto.getDia());
-        Usuario usuarioSalvo = usuarioService.save(usuario, dataNasc);
+        Usuario usuarioSalvo = usuarioService.salvar(usuario, dataNasc);
         UsuarioResponseDTO rDTO = mapper.map(usuarioSalvo, UsuarioResponseDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(rDTO); // Fazer os outros com base nesse
     }
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> getAllUsers() {
-        List<Usuario> users = usuarioService.findAll();
+        List<Usuario> users = usuarioService.listarUsuarios();
         List<UsuarioResponseDTO> responseDtos = users.stream()
                 .map(usuario -> mapper.map(usuario, UsuarioResponseDTO.class))
                 .toList();
@@ -42,18 +42,18 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorId(@PathVariable String id){
-        return usuarioService.findById(id)
+        return usuarioService.listarPorId(id)
                 .map(usuario -> ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable String id, @Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
-        return usuarioService.findById(id)
+        return usuarioService.listarPorId(id)
                 .map(usuario -> {
                     LocalDate dataNasc = LocalDate.of(usuarioRequestDTO.getAno(), usuarioRequestDTO.getMes(), usuarioRequestDTO.getDia());
                     usuario.setNomeUsuario(usuarioRequestDTO.getNome());
-                    Usuario atualizarUsuario = usuarioService.save(usuario, dataNasc );
+                    Usuario atualizarUsuario = usuarioService.salvar(usuario, dataNasc );
                     return ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -61,8 +61,8 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable String id){
-        if(usuarioService.findById(id).isPresent()) {
-            usuarioService.deleteById(id);
+        if(usuarioService.listarPorId(id).isPresent()) {
+            usuarioService.deletarPorId(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
