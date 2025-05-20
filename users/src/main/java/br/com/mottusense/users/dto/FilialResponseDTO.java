@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class FilialResponseDTO {
 
-    private long id;
-    private String nome;
+    private long idFilial;
+    private String nomeFilial;
 
 }
