@@ -32,12 +32,11 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> getAllUsers() {
+    public List<UsuarioResponseDTO> getAllUsers() {
         List<Usuario> users = usuarioService.listarUsuarios();
-        List<UsuarioResponseDTO> responseDtos = users.stream()
+        return users.stream()
                 .map(usuario -> mapper.map(usuario, UsuarioResponseDTO.class))
                 .toList();
-        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/{id}")

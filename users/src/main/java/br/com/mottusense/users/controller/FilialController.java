@@ -31,12 +31,11 @@ public class FilialController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FilialResponseDTO>> listarFiliais(){
+    public List<FilialResponseDTO> listarFiliais(){
         List<Filial> filiais = filialService.listarFiliais();
-        List<FilialResponseDTO> responseDTOS = filiais.stream()
+        return filiais.stream()
                 .map(filial -> mapper.map(filial, FilialResponseDTO.class))
                 .toList();
-        return ResponseEntity.ok(responseDTOS);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +49,7 @@ public class FilialController {
     public ResponseEntity<FilialResponseDTO> atualizarFilial(@PathVariable String id, @Valid @RequestBody FilialRequestDTO filialRequestDTO){
         return filialService.listarPorId(id)
                 .map(filial -> {
-                    filial.setNomeFilial(filialRequestDTO.getNome());
+                    filial.setNomeFilial(filialRequestDTO.getNomeFilial());
                     Filial atualizarFilial = filialService.salvar(filial);
                     return ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class));
                 })

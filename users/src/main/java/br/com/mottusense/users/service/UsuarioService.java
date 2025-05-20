@@ -1,9 +1,13 @@
 package br.com.mottusense.users.service;
 
-import br.com.mottusense.users.domain.Filial;
+import br.com.mottusense.users.domain.ConfiguracaoUsuario;
+import br.com.mottusense.users.domain.Localizacao;
 import br.com.mottusense.users.domain.Usuario;
+import br.com.mottusense.users.dto.EnderecoViaCep;
+import br.com.mottusense.users.http.ViaCepClient;
+import br.com.mottusense.users.repository.ConfiguracaoUsuarioRepository;
 import br.com.mottusense.users.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,28 +16,37 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
+    private ConfiguracaoUsuarioRepository configuracaoRepository;
 
     public Usuario salvar(Usuario usuario, LocalDate dataNasc) {
         usuario.setDataNascimentoUsuario(dataNasc);
         usuario.setDataCriacaoUsuario(LocalDateTime.now());
         usuario.setLinkFotoUsuario("");
-        return repository.save(usuario);
+
+        configuracaoRepository.save(criarConfiguracaoUsuario(usuario));
+
+        return usuarioRepository.save(usuario);
+    }
+
+    private ConfiguracaoUsuario criarConfiguracaoUsuario(Usuario usuario) {
+        return new ConfiguracaoUsuario(null, false, false,
+                false, false, false, usuario );
     }
 
     public List<Usuario> listarUsuarios() {
-        return repository.findAll();
+        return usuarioRepository.findAll();
     }
 
     public Optional<Usuario> listarPorId(String id) {
-        return repository.findById(id);
+        return usuarioRepository.findById(id);
     }
 
     public void deletarPorId(String id) {
-        repository.deleteById(id);
+        usuarioRepository.deleteById(id);
     }
 
 }

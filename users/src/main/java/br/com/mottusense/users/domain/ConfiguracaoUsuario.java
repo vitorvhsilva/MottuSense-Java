@@ -1,9 +1,17 @@
 package br.com.mottusense.users.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TB_CONFIGURACAO_USUARIO")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class ConfiguracaoUsuario {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)

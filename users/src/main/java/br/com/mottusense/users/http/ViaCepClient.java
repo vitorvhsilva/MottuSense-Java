@@ -1,0 +1,12 @@
+package br.com.mottusense.users.http;
+
+import br.com.mottusense.users.dto.EnderecoViaCep;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@FeignClient("https://viacep.com.br/ws")
+public interface ViaCepClient {
+    @GetMapping("/{cep}/json/")
+    EnderecoViaCep obterEnderecoDoUsuario(@PathVariable String cep);
+}
