@@ -28,7 +28,7 @@ public class UsuarioController {
         LocalDate dataNasc = LocalDate.of(dto.getAno(), dto.getMes(), dto.getDia());
         Usuario usuarioSalvo = usuarioService.salvar(usuario, dataNasc);
         UsuarioResponseDTO rDTO = mapper.map(usuarioSalvo, UsuarioResponseDTO.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(rDTO); // Fazer os outros com base nesse
+        return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
     }
 
     @GetMapping
@@ -52,9 +52,9 @@ public class UsuarioController {
         return usuarioService.listarPorId(id)
                 .map(usuario -> {
                     LocalDate dataNasc = LocalDate.of(usuarioRequestDTO.getAno(), usuarioRequestDTO.getMes(), usuarioRequestDTO.getDia());
-                    usuario.setNomeUsuario(usuarioRequestDTO.getNome());
+                    usuario.setNomeUsuario(usuarioRequestDTO.getNomeUsuario());
                     Usuario atualizarUsuario = usuarioService.salvar(usuario, dataNasc );
-                    return ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class));
+                    return ResponseEntity.ok(mapper.map(atualizarUsuario, UsuarioResponseDTO.class));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -3,6 +3,7 @@ package br.com.mottusense.users.service;
 import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.domain.Usuario;
 import br.com.mottusense.users.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
+    @Autowired
     private UsuarioRepository repository;
 
     public Usuario salvar(Usuario usuario, LocalDate dataNasc) {
@@ -33,7 +35,5 @@ public class UsuarioService {
     public void deletarPorId(String id) {
         repository.deleteById(id);
     }
-
-
 
 }

@@ -1,39 +1,42 @@
 package br.com.mottusense.users.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class UsuarioRequestDTO {
     @NotBlank(message = "É necessário digitar um nome de usuário")
     @Size(min = 3, message = "O nome deve ter mais de 3 caracteres;")
-    private String nome;
+    private String nomeUsuario;
 
     @NotBlank(message = "É necessário digitar um cpf")
-    @Size(min = 11, max = 11, message = "O CPF não possui números diferentes")
-    private String cpf;
+    @Size(min = 11, max = 11)
+    private String cpfUsuario;
 
     @NotBlank(message = "É necessário digitar um número de telefone")
-    private String telefone;
+    private String telefoneUsuario;
 
     @NotBlank(message = "É necessário digitar um email")
-    private String email;
+    private String emailUsuario;
 
     @NotBlank(message = "É necessário digitar uma senha")
     @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
-    private String senha;
+    private String senhaUsuario;
 
     @NotBlank(message = "É necessário digitar um CEP válido")
     @Size(min = 8, max = 8, message = "O CEP deve conter 8 digitos")
     private String cep;
 
-    @NotBlank(message = "É necessário digitar o dia de sua data de nascimento")
+    @NotNull(message = "É necessário digitar o dia de sua data de nascimento")
     private Integer dia;
 
-    @NotBlank(message = "É necessário digitar o mes de sua data de nascimento")
+    @NotNull(message = "É necessário digitar o mes de sua data de nascimento")
     private Integer mes;
 
-    @NotBlank(message = "É necessário digitar o ano de sua data de nascimento")
+    @NotNull(message = "É necessário digitar o ano de sua data de nascimento")
     private Integer ano;
 }
