@@ -19,15 +19,15 @@ public class ConfiguracaoUsuario {
     @Column(name = "id_configuracao_usuario")
     private String idConfiguracaoUsuario;
 
-    @Column(name = "alerta_moto_entrar_patio", nullable = false)
+    @Column(name = "alerta_moto_entrar_patio")
     private Boolean alertaMotoEntrarPatio;
-    @Column(name = "alerta_moto_sair_patio", nullable = false)
+    @Column(name = "alerta_moto_sair_patio")
     private Boolean alertaMotoSairPatio;
-    @Column(name = "alerta_moto_chegar_sem_placa", nullable = false)
+    @Column(name = "alerta_moto_chegar_sem_placa")
     private Boolean alertaMotoChegarSemPlaca;
-    @Column(name = "alerta_moto_precisa_manutencao", nullable = false)
+    @Column(name = "alerta_moto_precisa_manutencao")
     private Boolean alertaMotoPrecisaManutencao;
-    @Column(name = "alerta_moto_preparada_alugada", nullable = false)
+    @Column(name = "alerta_moto_preparada_alugada")
     private Boolean alertaMotoPreparadaAlugada;
 
     @OneToOne(mappedBy = "configuracaoUsuario", cascade = CascadeType.ALL)
