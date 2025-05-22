@@ -13,9 +13,30 @@ Este projeto é um microsserviço que permite o **cadastro de usuários**, a **l
 ## 🧩 Funcionalidades
 
 ### 👤 Gestão de Usuários
-- Cadastro de novos usuários no banco de dados.
+- Cadastro de novos usuários.
+- ![image](https://github.com/user-attachments/assets/333554ff-16f9-4917-b4b7-f7e7a71ee066)
 - Consulta de usuários cadastrados.
+- ![image](https://github.com/user-attachments/assets/d5584ea0-a16c-43ee-844d-316afe148ab2)
+- Consulta de usuários por ID.
+- ![image](https://github.com/user-attachments/assets/9f94c655-5e7a-4b00-b9cd-b60fe6778b1a)
 - Atualização de dados dos usuários.
+- ![image](https://github.com/user-attachments/assets/00274857-c294-454a-83e0-6c43238960f2)
+- Remoção de usuários
+- ![image](https://github.com/user-attachments/assets/6aa051d2-5d03-4bd6-8e38-02d0b7ae8ce9)
+OBS: Quando o usuário for deletado, será resultado 204 (No content)
+
+### 🏍️ Gestão de filais
+- Cadastro de filiais
+- ![image](https://github.com/user-attachments/assets/68c41186-545a-4818-9208-a08d85302a12)
+- Consulta de filiais.
+- ![image](https://github.com/user-attachments/assets/40fb35a3-407b-4f50-8ade-b02e2abd79fd)
+- Consulta de filiais por ID.
+- ![image](https://github.com/user-attachments/assets/2cac60e6-45e5-456c-845a-1fbad4a300db)
+- Atualização de filaiis.
+- ![image](https://github.com/user-attachments/assets/529d5648-2e6b-49ae-a0d4-a0b48cedb535)
+- Remoção de filiais.
+- ![image](https://github.com/user-attachments/assets/548a352f-f1e3-469d-8ba4-a2ae4f091361)
+OBS: Quando a filial for deletada, será resultado 204 (No content)
 
 ### 📍 Localização de Filiais
 - Localiza filiais mais próximas do usuário com base no seu CEP.
@@ -47,7 +68,7 @@ Pronta para locação/venda	A moto com ID 3344 está limpa, revisada e disponív
 
 🔒 Segurança e Autenticação
 
-Validações de entrada com Bean Validation (@Valid).
+Validações de entrada com Bean Validation nas classes controller (@Valid).
 
 🚀 Tecnologias Utilizadas
 
