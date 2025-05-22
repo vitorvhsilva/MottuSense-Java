@@ -35,11 +35,11 @@ public class Usuario {
     @Column(name = "data_criacao_usuario")
     private LocalDateTime dataCriacaoUsuario;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_configuracao_usuario")
     private ConfiguracaoUsuario configuracaoUsuario;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "TB_USUARIO_FILIAL",
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_filial")

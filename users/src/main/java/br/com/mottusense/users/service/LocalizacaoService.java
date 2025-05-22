@@ -22,6 +22,7 @@ public class LocalizacaoService {
         Localizacao localizacao = new Localizacao(null, cep, viaCep.getLogradouro(), viaCep.getBairro(),
                 viaCep.getEstado(), viaCep.getRegiao(), filial);
 
+        filial.setLocalizacao(localizacao);
         return repository.save(localizacao);
     }
 }

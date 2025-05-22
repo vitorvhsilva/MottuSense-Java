@@ -1,6 +1,7 @@
 package br.com.mottusense.users.service;
 
 import br.com.mottusense.users.domain.Filial;
+import br.com.mottusense.users.dto.input.AtualizarFilialRequestDTO;
 import br.com.mottusense.users.dto.input.CadastroFilialRequestDTO;
 import br.com.mottusense.users.exception.FilialNaoEncontradaException;
 import br.com.mottusense.users.repository.FilialRepository;
@@ -36,7 +37,7 @@ public class FilialService {
     }
 
     @Transactional
-    public Filial atualizarFilial(String id, @Valid CadastroFilialRequestDTO dto) {
+    public Filial atualizarFilial(String id, @Valid AtualizarFilialRequestDTO dto) {
         Filial filial = obterPorId(id);
         filial.setNomeFilial(dto.getNomeFilial());
 

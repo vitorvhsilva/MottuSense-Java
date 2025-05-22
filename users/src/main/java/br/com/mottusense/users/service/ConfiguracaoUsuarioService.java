@@ -18,8 +18,8 @@ public class ConfiguracaoUsuarioService {
     private ConfiguracaoUsuarioRepository repository;
 
     @Transactional
-    public ConfiguracaoUsuario alterarConfiguracao(ConfiguracaoUsuario config) {
-        ConfiguracaoUsuario configuracao = repository.findById(config.getIdConfiguracaoUsuario())
+    public ConfiguracaoUsuario alterarConfiguracao(String id, ConfiguracaoUsuario config) {
+        ConfiguracaoUsuario configuracao = repository.findById(id)
                 .orElseThrow(() -> new ConfiguracaoUsuarioNaoEncontradaException("Configuração do usuário não encontrada pelo id!"));
 
         configuracao.setAlertaMotoChegarSemPlaca(config.getAlertaMotoChegarSemPlaca());

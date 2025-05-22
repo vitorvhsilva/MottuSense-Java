@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RequestMapping("configuracoes")
@@ -21,10 +18,11 @@ public class ConfiguracaoUsuarioController {
     private ModelMapper mapper;
     private ConfiguracaoUsuarioService service;
 
-    @PutMapping
-    public ResponseEntity<AtualizarConfiguracaoUsuarioResponseDTO> alterarConfiguracao(@RequestBody @Valid AtualizarConfiguracaoUsuarioRequestDTO dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<AtualizarConfiguracaoUsuarioResponseDTO> alterarConfiguracao(@PathVariable String id, @RequestBody @Valid AtualizarConfiguracaoUsuarioRequestDTO dto) {
         ConfiguracaoUsuario config = mapper.map(dto, ConfiguracaoUsuario.class);
-        AtualizarConfiguracaoUsuarioResponseDTO response = mapper.map(service.alterarConfiguracao(config), AtualizarConfiguracaoUsuarioResponseDTO.class);
+        AtualizarConfiguracaoUsuarioResponseDTO response = mapper.map(service.alterarConfiguracao(id, config),
+                AtualizarConfiguracaoUsuarioResponseDTO.class);
         return ResponseEntity.ok(response);
     }
 

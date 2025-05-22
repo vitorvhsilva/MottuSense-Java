@@ -20,7 +20,7 @@ public class Filial {
     @Column(name = "nome_filial", nullable = false)
     private String nomeFilial;
 
-    @ManyToMany(mappedBy = "filiais")
+    @ManyToMany(mappedBy = "filiais", cascade = CascadeType.ALL)
     private List<Usuario> usuario;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -3,7 +3,9 @@ package br.com.mottusense.users.controller;
 
 import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.domain.Localizacao;
+import br.com.mottusense.users.dto.input.AtualizarFilialRequestDTO;
 import br.com.mottusense.users.dto.input.CadastroFilialRequestDTO;
+import br.com.mottusense.users.dto.output.LocalizacaoDTO;
 import br.com.mottusense.users.dto.output.ObterFilialResponseDTO;
 import br.com.mottusense.users.service.FilialService;
 import br.com.mottusense.users.service.LocalizacaoService;
@@ -32,7 +34,7 @@ public class FilialController {
         Localizacao localizacao = localizacaoService.persistirLocalizacao(dto.getCep(), filialSalva);
 
         ObterFilialResponseDTO response = mapper.map(filialSalva, ObterFilialResponseDTO.class);
-        response.setLocalizacao(localizacao);
+        response.setLocalizacao(mapper.map(localizacao, LocalizacaoDTO.class));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -49,11 +51,16 @@ public class FilialController {
     public ResponseEntity<ObterFilialResponseDTO> buscarFilialPorId(@PathVariable String id){
         Filial filial = filialService.obterPorId(id);
 
-        return ResponseEntity.ok(mapper.map(filial, ObterFilialResponseDTO.class));
+        LocalizacaoDTO localizacaoDTO = mapper.map(filial.getLocalizacao(), LocalizacaoDTO.class);
+
+        ObterFilialResponseDTO response = mapper.map(filial, ObterFilialResponseDTO.class);
+        response.setLocalizacao(localizacaoDTO);
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ObterFilialResponseDTO> atualizarFilial(@PathVariable String id, @Valid @RequestBody CadastroFilialRequestDTO dto){
+    public ResponseEntity<ObterFilialResponseDTO> atualizarFilial(@PathVariable String id, @Valid @RequestBody AtualizarFilialRequestDTO dto){
         Filial filial = filialService.atualizarFilial(id, dto);
 
         return ResponseEntity.ok(mapper.map(filial, ObterFilialResponseDTO.class));
