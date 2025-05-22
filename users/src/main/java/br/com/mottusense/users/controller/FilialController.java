@@ -2,9 +2,11 @@ package br.com.mottusense.users.controller;
 
 
 import br.com.mottusense.users.domain.Filial;
+import br.com.mottusense.users.domain.Localizacao;
 import br.com.mottusense.users.dto.FilialRequestDTO;
 import br.com.mottusense.users.dto.FilialResponseDTO;
 import br.com.mottusense.users.service.FilialService;
+import br.com.mottusense.users.service.LocalizacaoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,14 +22,19 @@ import java.util.List;
 public class FilialController {
 
     private FilialService filialService;
+    private LocalizacaoService localizacaoService;
     private ModelMapper mapper;
 
     @PostMapping
     public ResponseEntity<FilialResponseDTO> cadastrarFilial(@RequestBody FilialRequestDTO dto){
         Filial filial = mapper.map(dto, Filial.class);
-        Filial filialSalva = filialService.salvar(filial, dto.getCep());
-        FilialResponseDTO rDTO = mapper.map(filialSalva, FilialResponseDTO.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
+        Filial filialSalva = filialService.salvar(filial);
+        Localizacao localizacao = localizacaoService.persistirLocalizacao(dto.getCep(), filialSalva);
+
+        FilialResponseDTO response = mapper.map(filialSalva, FilialResponseDTO.class);
+        response.setLocalizacao(localizacao);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -50,7 +57,7 @@ public class FilialController {
         return filialService.listarPorId(id)
                 .map(filial -> {
                     filial.setNomeFilial(filialRequestDTO.getNomeFilial());
-                    Filial atualizarFilial = filialService.salvar(filial, filialRequestDTO.getCep());
+                    Filial atualizarFilial = filialService.salvar(filial);
                     return ResponseEntity.ok(mapper.map(atualizarFilial, FilialResponseDTO.class));
                 })
                 .orElse(ResponseEntity.notFound().build());

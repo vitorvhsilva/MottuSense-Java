@@ -26,36 +26,4 @@ public class Filial {
     @OneToOne
     @JoinColumn(name = "id_localizacao")
     private Localizacao localizacao;
-
-    public String getIdFilial() {
-        return idFilial;
-    }
-
-    public void setIdFilial(String idFilial) {
-        this.idFilial = idFilial;
-    }
-
-    public String getNomeFilial() {
-        return nomeFilial;
-    }
-
-    public void setNomeFilial(String nomeFilial) {
-        this.nomeFilial = nomeFilial;
-    }
-
-    public List<Usuario> getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(List<Usuario> usuario) {
-        this.usuario = usuario;
-    }
-
-    public Localizacao getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(Localizacao localizacao) {
-        this.localizacao = localizacao;
-    }
 }

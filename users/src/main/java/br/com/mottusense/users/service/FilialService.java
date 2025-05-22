@@ -17,20 +17,9 @@ import java.util.Optional;
 public class FilialService {
 
     private FilialRepository filialRepository;
-    private LocalizacaoRepository localizacaoRepository;
-    private ViaCepClient cepClient;
 
-    public Filial salvar(Filial filial, String cep) {
-
-        EnderecoViaCep viaCep = cepClient.obterEnderecoDoUsuario(cep);
-        Filial entity = filialRepository.save(filial);
-
-        Localizacao localizacao = new Localizacao(null, cep, viaCep.getLogradouro(), viaCep.getBairro(),
-                viaCep.getEstado(), viaCep.getRegiao(), entity);
-
-        localizacaoRepository.save(localizacao);
-
-        return entity;
+    public Filial salvar(Filial filial) {
+        return filialRepository.save(filial);
     }
 
 
