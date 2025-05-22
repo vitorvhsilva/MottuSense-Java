@@ -1,4 +1,4 @@
-package br.com.mottusense.users.dto;
+package br.com.mottusense.users.dto.output;
 
 import lombok.Data;
 

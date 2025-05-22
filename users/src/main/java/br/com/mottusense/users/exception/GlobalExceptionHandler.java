@@ -1,6 +1,6 @@
 package br.com.mottusense.users.exception;
 
-import br.com.mottusense.users.dto.ErroDTO;
+import br.com.mottusense.users.dto.output.ErroDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

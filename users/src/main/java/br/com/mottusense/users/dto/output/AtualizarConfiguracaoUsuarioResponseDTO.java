@@ -1,11 +1,6 @@
-package br.com.mottusense.users.dto;
+package br.com.mottusense.users.dto.output;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-public class ConfiguracaoUsuarioResponseDTO {
+public class AtualizarConfiguracaoUsuarioResponseDTO {
     private String idConfiguracaoUsuario;
     private Boolean alertaMotoEntrarPatio;
     private Boolean alertaMotoSairPatio;

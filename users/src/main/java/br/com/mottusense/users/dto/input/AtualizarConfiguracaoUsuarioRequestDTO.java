@@ -1,6 +1,6 @@
-package br.com.mottusense.users.dto;
+package br.com.mottusense.users.dto.input;
 
-public class ConfiguracaoUsuarioRequestDTO {
+public class AtualizarConfiguracaoUsuarioRequestDTO {
     private Boolean alertaMotoEntrarPatio;
     private Boolean alertaMotoSairPatio;
     private Boolean alertaMotoChegarSemPlaca;

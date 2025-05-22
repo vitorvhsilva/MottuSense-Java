@@ -1,12 +1,11 @@
 package br.com.mottusense.users.controller;
 
 import br.com.mottusense.users.domain.ConfiguracaoUsuario;
-import br.com.mottusense.users.dto.ConfiguracaoUsuarioRequestDTO;
-import br.com.mottusense.users.dto.ConfiguracaoUsuarioResponseDTO;
+import br.com.mottusense.users.dto.input.AtualizarConfiguracaoUsuarioRequestDTO;
+import br.com.mottusense.users.dto.output.AtualizarConfiguracaoUsuarioResponseDTO;
 import br.com.mottusense.users.service.ConfiguracaoUsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,9 +22,9 @@ public class ConfiguracaoUsuarioController {
     private ConfiguracaoUsuarioService service;
 
     @PutMapping
-    public ResponseEntity<ConfiguracaoUsuarioResponseDTO> alterarConfiguracao(@RequestBody @Valid ConfiguracaoUsuarioRequestDTO dto) {
+    public ResponseEntity<AtualizarConfiguracaoUsuarioResponseDTO> alterarConfiguracao(@RequestBody @Valid AtualizarConfiguracaoUsuarioRequestDTO dto) {
         ConfiguracaoUsuario config = mapper.map(dto, ConfiguracaoUsuario.class);
-        ConfiguracaoUsuarioResponseDTO response = mapper.map(service.alterarConfiguracao(config), ConfiguracaoUsuarioResponseDTO.class);
+        AtualizarConfiguracaoUsuarioResponseDTO response = mapper.map(service.alterarConfiguracao(config), AtualizarConfiguracaoUsuarioResponseDTO.class);
         return ResponseEntity.ok(response);
     }
 

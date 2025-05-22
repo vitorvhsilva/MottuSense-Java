@@ -60,7 +60,7 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuario(@PathVariable String id){
         usuarioService.deletarPorId(id);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
     }
 
 }
