@@ -1,7 +1,5 @@
 package br.com.mottusense.users.dto.output;
 
-import br.com.mottusense.users.domain.ConfiguracaoUsuario;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -18,5 +16,5 @@ public class ObterUsuarioResponseDTO {
     private String linkFotoUsuario;
     private LocalDate dataNascimentoUsuario;
     private LocalDateTime dataCriacaoUsuario;
-    private ConfiguracaoUsuario configuracaoUsuario;
+    private ConfiguracaoUsuarioDTO configuracaoUsuario;
 }

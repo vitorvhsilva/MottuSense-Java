@@ -35,7 +35,7 @@ public class Usuario {
     @Column(name = "data_criacao_usuario")
     private LocalDateTime dataCriacaoUsuario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_configuracao_usuario")
     private ConfiguracaoUsuario configuracaoUsuario;
 

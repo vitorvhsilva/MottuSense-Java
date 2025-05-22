@@ -27,14 +27,15 @@ public class UsuarioService {
         usuario.setDataCriacaoUsuario(LocalDateTime.now());
         usuario.setLinkFotoUsuario("");
 
-        Usuario entity = usuarioRepository.save(usuario);
-        configuracaoRepository.save(criarConfiguracaoUsuario(usuario));
-        return entity;
+        ConfiguracaoUsuario config = configuracaoRepository.save(criarConfiguracaoUsuario(usuario));
+        usuario.setConfiguracaoUsuario(config);
+
+        return usuarioRepository.save(usuario);
     }
 
     private ConfiguracaoUsuario criarConfiguracaoUsuario(Usuario usuario) {
         return new ConfiguracaoUsuario(null, false, false,
-                false, false, false, usuario );
+                false, false, false, usuario);
     }
 
     public List<Usuario> listarUsuarios() {

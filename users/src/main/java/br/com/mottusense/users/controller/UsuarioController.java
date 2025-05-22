@@ -4,6 +4,7 @@ import br.com.mottusense.users.domain.Usuario;
 import br.com.mottusense.users.dto.input.AtualizarUsuarioRequestDTO;
 import br.com.mottusense.users.dto.input.CadastroUsuarioRequestDTO;
 import br.com.mottusense.users.dto.output.CadastroUsuarioResponseDTO;
+import br.com.mottusense.users.dto.output.ConfiguracaoUsuarioDTO;
 import br.com.mottusense.users.dto.output.ObterUsuarioResponseDTO;
 import br.com.mottusense.users.dto.output.ObterUsuariosResponseDTO;
 import br.com.mottusense.users.service.UsuarioService;
@@ -46,7 +47,11 @@ public class UsuarioController {
     public ResponseEntity<ObterUsuarioResponseDTO> buscarUsuarioPorId(@PathVariable String id){
         Usuario usuario = usuarioService.obterPorId(id);
 
-        return ResponseEntity.ok(mapper.map(usuario, ObterUsuarioResponseDTO.class));
+        ConfiguracaoUsuarioDTO configDTO = mapper.map(usuario.getConfiguracaoUsuario(), ConfiguracaoUsuarioDTO.class);
+
+        ObterUsuarioResponseDTO response = mapper.map(usuario, ObterUsuarioResponseDTO.class);
+        response.setConfiguracaoUsuario(configDTO);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

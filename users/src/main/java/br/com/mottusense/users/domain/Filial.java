@@ -23,7 +23,7 @@ public class Filial {
     @ManyToMany(mappedBy = "filiais")
     private List<Usuario> usuario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_localizacao")
     private Localizacao localizacao;
 }

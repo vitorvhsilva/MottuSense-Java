@@ -1,5 +1,6 @@
 package br.com.mottusense.users.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,6 @@ public class ConfiguracaoUsuario {
     @Column(name = "alerta_moto_preparada_alugada", nullable = false)
     private Boolean alertaMotoPreparadaAlugada;
 
-    @OneToOne(mappedBy = "configuracaoUsuario")
+    @OneToOne(mappedBy = "configuracaoUsuario", cascade = CascadeType.ALL)
     private Usuario usuario;
 }

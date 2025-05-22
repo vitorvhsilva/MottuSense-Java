@@ -25,7 +25,7 @@ public class Localizacao {
     @Column(name = "regiao_localizacao")
     private String regiaoLocalizacao;
 
-    @OneToOne(mappedBy = "localizacao")
+    @OneToOne(mappedBy = "localizacao", cascade = CascadeType.ALL)
     private Filial filial;
 
 
