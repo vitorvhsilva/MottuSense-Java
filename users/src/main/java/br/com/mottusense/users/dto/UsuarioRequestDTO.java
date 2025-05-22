@@ -27,10 +27,6 @@ public class UsuarioRequestDTO {
     @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
     private String senhaUsuario;
 
-    @NotBlank(message = "É necessário digitar um CEP válido")
-    @Size(min = 8, max = 8, message = "O CEP deve conter 8 digitos")
-    private String cep;
-
     @NotNull(message = "É necessário digitar o dia de sua data de nascimento")
     private Integer dia;
 

@@ -1,33 +1,48 @@
 package br.com.mottusense.users.service;
 
 import br.com.mottusense.users.domain.Filial;
+import br.com.mottusense.users.domain.Localizacao;
+import br.com.mottusense.users.dto.EnderecoViaCep;
+import br.com.mottusense.users.http.ViaCepClient;
 import br.com.mottusense.users.repository.FilialRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.mottusense.users.repository.LocalizacaoRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class FilialService {
 
-    @Autowired
-    private FilialRepository repository;
+    private FilialRepository filialRepository;
+    private LocalizacaoRepository localizacaoRepository;
+    private ViaCepClient cepClient;
 
+    public Filial salvar(Filial filial, String cep) {
 
-    public Filial salvar(Filial filial) {
-        return repository.save(filial);
+        EnderecoViaCep viaCep = cepClient.obterEnderecoDoUsuario(cep);
+        Filial entity = filialRepository.save(filial);
+
+        Localizacao localizacao = new Localizacao(null, cep, viaCep.getLogradouro(), viaCep.getBairro(),
+                viaCep.getEstado(), viaCep.getRegiao(), entity);
+
+        localizacaoRepository.save(localizacao);
+
+        return entity;
     }
 
+
     public List<Filial> listarFiliais() {
-        return repository.findAll();
+        return filialRepository.findAll();
     }
 
     public Optional<Filial> listarPorId(String id) {
-        return repository.findById(id);
+        return filialRepository.findById(id);
     }
 
     public void deletarPorId(String id) {
-        repository.deleteById(id);
+        filialRepository.deleteById(id);
     }
 }

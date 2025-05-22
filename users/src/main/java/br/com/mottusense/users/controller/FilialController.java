@@ -23,9 +23,9 @@ public class FilialController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<FilialResponseDTO> cadastrarFilial(@RequestBody FilialRequestDTO filialRequestDTO){
-        Filial filial = mapper.map(filialRequestDTO, Filial.class);
-        Filial filialSalva = filialService.salvar(filial);
+    public ResponseEntity<FilialResponseDTO> cadastrarFilial(@RequestBody FilialRequestDTO dto){
+        Filial filial = mapper.map(dto, Filial.class);
+        Filial filialSalva = filialService.salvar(filial, dto.getCep());
         FilialResponseDTO rDTO = mapper.map(filialSalva, FilialResponseDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
     }
@@ -50,8 +50,8 @@ public class FilialController {
         return filialService.listarPorId(id)
                 .map(filial -> {
                     filial.setNomeFilial(filialRequestDTO.getNomeFilial());
-                    Filial atualizarFilial = filialService.salvar(filial);
-                    return ResponseEntity.ok(mapper.map(filial, FilialResponseDTO.class));
+                    Filial atualizarFilial = filialService.salvar(filial, filialRequestDTO.getCep());
+                    return ResponseEntity.ok(mapper.map(atualizarFilial, FilialResponseDTO.class));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

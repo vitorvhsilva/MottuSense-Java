@@ -27,9 +27,9 @@ public class UsuarioService {
         usuario.setDataCriacaoUsuario(LocalDateTime.now());
         usuario.setLinkFotoUsuario("");
 
+        Usuario entity = usuarioRepository.save(usuario);
         configuracaoRepository.save(criarConfiguracaoUsuario(usuario));
-
-        return usuarioRepository.save(usuario);
+        return entity;
     }
 
     private ConfiguracaoUsuario criarConfiguracaoUsuario(Usuario usuario) {
