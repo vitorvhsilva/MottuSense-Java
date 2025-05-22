@@ -1,8 +1,11 @@
 package br.com.mottusense.users.controller;
 
 import br.com.mottusense.users.domain.Usuario;
-import br.com.mottusense.users.dto.UsuarioRequestDTO;
-import br.com.mottusense.users.dto.UsuarioResponseDTO;
+import br.com.mottusense.users.dto.input.AtualizarUsuarioRequestDTO;
+import br.com.mottusense.users.dto.input.CadastroUsuarioRequestDTO;
+import br.com.mottusense.users.dto.output.CadastroUsuarioResponseDTO;
+import br.com.mottusense.users.dto.output.ObterUsuarioResponseDTO;
+import br.com.mottusense.users.dto.output.ObterUsuariosResponseDTO;
 import br.com.mottusense.users.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,48 +26,41 @@ public class UsuarioController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO dto){
+    public ResponseEntity<CadastroUsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody CadastroUsuarioRequestDTO dto){
         Usuario usuario = mapper.map(dto, Usuario.class);
         LocalDate dataNasc = LocalDate.of(dto.getAno(), dto.getMes(), dto.getDia());
-        Usuario usuarioSalvo = usuarioService.salvar(usuario, dataNasc);
-        UsuarioResponseDTO rDTO = mapper.map(usuarioSalvo, UsuarioResponseDTO.class);
+
+        CadastroUsuarioResponseDTO rDTO = mapper.map(usuarioService.salvar(usuario, dataNasc), CadastroUsuarioResponseDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(rDTO);
     }
 
     @GetMapping
-    public List<UsuarioResponseDTO> getAllUsers() {
+    public List<ObterUsuariosResponseDTO> obterUsuarios() {
         List<Usuario> users = usuarioService.listarUsuarios();
         return users.stream()
-                .map(usuario -> mapper.map(usuario, UsuarioResponseDTO.class))
+                .map(usuario -> mapper.map(usuario, ObterUsuariosResponseDTO.class))
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> buscarUsuarioPorId(@PathVariable String id){
-        return usuarioService.listarPorId(id)
-                .map(usuario -> ResponseEntity.ok(mapper.map(usuario, UsuarioResponseDTO.class)))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ObterUsuarioResponseDTO> buscarUsuarioPorId(@PathVariable String id){
+        Usuario usuario = usuarioService.obterPorId(id);
+
+        return ResponseEntity.ok(mapper.map(usuario, ObterUsuarioResponseDTO.class));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable String id, @Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
-        return usuarioService.listarPorId(id)
-                .map(usuario -> {
-                    LocalDate dataNasc = LocalDate.of(usuarioRequestDTO.getAno(), usuarioRequestDTO.getMes(), usuarioRequestDTO.getDia());
-                    usuario.setNomeUsuario(usuarioRequestDTO.getNomeUsuario());
-                    Usuario atualizarUsuario = usuarioService.salvar(usuario, dataNasc );
-                    return ResponseEntity.ok(mapper.map(atualizarUsuario, UsuarioResponseDTO.class));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ObterUsuarioResponseDTO> atualizarUsuario(@PathVariable String id, @Valid @RequestBody AtualizarUsuarioRequestDTO dto){
+        Usuario usuario = usuarioService.atualizarUsuario(id, dto);
+
+        return ResponseEntity.ok(mapper.map(usuario, ObterUsuarioResponseDTO.class));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable String id){
-        if(usuarioService.listarPorId(id).isPresent()) {
-            usuarioService.deletarPorId(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        usuarioService.deletarPorId(id);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

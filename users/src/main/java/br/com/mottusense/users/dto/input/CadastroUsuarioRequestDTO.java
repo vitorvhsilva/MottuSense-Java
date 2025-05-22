@@ -1,14 +1,12 @@
-package br.com.mottusense.users.dto;
+package br.com.mottusense.users.dto.input;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-public class UsuarioRequestDTO {
+public class CadastroUsuarioRequestDTO {
     @NotBlank(message = "É necessário digitar um nome de usuário")
     @Size(min = 3, message = "O nome deve ter mais de 3 caracteres;")
     private String nomeUsuario;

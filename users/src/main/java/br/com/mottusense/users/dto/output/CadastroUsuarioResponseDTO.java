@@ -1,4 +1,4 @@
-package br.com.mottusense.users.dto;
+package br.com.mottusense.users.dto.output;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class UsuarioResponseDTO {
+public class CadastroUsuarioResponseDTO {
     private String idUsuario;
     private String nomeUsuario;
     private String cpfUsuario;

@@ -1,19 +1,19 @@
 package br.com.mottusense.users.service;
 
 import br.com.mottusense.users.domain.ConfiguracaoUsuario;
-import br.com.mottusense.users.domain.Localizacao;
 import br.com.mottusense.users.domain.Usuario;
-import br.com.mottusense.users.dto.EnderecoViaCep;
-import br.com.mottusense.users.http.ViaCepClient;
+import br.com.mottusense.users.dto.input.AtualizarUsuarioRequestDTO;
+import br.com.mottusense.users.dto.input.CadastroUsuarioRequestDTO;
+import br.com.mottusense.users.exception.UsuarioNaoEncontradoException;
 import br.com.mottusense.users.repository.ConfiguracaoUsuarioRepository;
 import br.com.mottusense.users.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -41,12 +41,21 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> listarPorId(String id) {
-        return usuarioRepository.findById(id);
+    public Usuario obterPorId(String id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado!"));
     }
 
     public void deletarPorId(String id) {
         usuarioRepository.deleteById(id);
     }
 
+    @Transactional
+    public Usuario atualizarUsuario(String id, AtualizarUsuarioRequestDTO dto) {
+        Usuario usuario = obterPorId(id);
+
+        usuario.setNomeUsuario(dto.getNomeUsuario());
+        usuario.setSenhaUsuario(dto.getSenhaUsuario());
+
+        return usuario;
+    }
 }

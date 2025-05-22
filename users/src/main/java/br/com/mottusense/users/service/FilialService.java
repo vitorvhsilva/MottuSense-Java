@@ -3,6 +3,7 @@ package br.com.mottusense.users.service;
 import br.com.mottusense.users.domain.Filial;
 import br.com.mottusense.users.domain.Localizacao;
 import br.com.mottusense.users.dto.EnderecoViaCep;
+import br.com.mottusense.users.exception.FilialNaoEncontradaException;
 import br.com.mottusense.users.http.ViaCepClient;
 import br.com.mottusense.users.repository.FilialRepository;
 import br.com.mottusense.users.repository.LocalizacaoRepository;
@@ -27,8 +28,9 @@ public class FilialService {
         return filialRepository.findAll();
     }
 
-    public Optional<Filial> listarPorId(String id) {
-        return filialRepository.findById(id);
+    public Filial listarPorId(String id) {
+        return filialRepository.findById(id)
+                .orElseThrow(() -> new FilialNaoEncontradaException("Filial não encontrada!"));
     }
 
     public void deletarPorId(String id) {
