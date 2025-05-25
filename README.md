@@ -1,8 +1,8 @@
 # MottuSense-Java
 
-Vitor Hugo da Silva - 558961
-Brendon de Paula - 559196
-João Henrique Murilla Ganança - 556405
+- Vitor Hugo da Silva - 558961
+- Brendon de Paula - 559196
+- João Henrique Murilla Ganança - 556405
 
 # 🚀 MottuSense - Sistema de Gestão de Usuários e Monitoramento de Motos
 
