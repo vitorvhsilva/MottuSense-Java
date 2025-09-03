@@ -8,4 +8,8 @@ import lombok.Data;
 public class AtualizarFilialRequestDTO {
     @NotBlank(message = "Você precisa colocar o nome da filial")
     private String nomeFilial;
+
+    @NotBlank(message = "É necessário digitar um CEP válido")
+    @Size(min = 8, max = 8, message = "O CEP deve conter 8 digitos")
+    private String cep;
 }
