@@ -29,9 +29,9 @@ public class UsuarioControllerView {
     @GetMapping
     public String listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
-        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("templates/usuarios", usuarios);
         model.addAttribute("titulo", "Gerenciamento de Usuários");
-        return "usuarios/lista";
+        return "templates/usuarios/lista";
     }
 
     @GetMapping("/novo")
@@ -39,7 +39,7 @@ public class UsuarioControllerView {
         model.addAttribute("usuarioDTO", new CadastroUsuarioRequestDTO());
         model.addAttribute("titulo", "Cadastrar Novo Usuário");
         model.addAttribute("action", "/admin/usuarios");
-        return "usuarios/form";
+        return "templates/usuarios/form";
     }
 
     @PostMapping
@@ -52,7 +52,7 @@ public class UsuarioControllerView {
         if (result.hasErrors()) {
             model.addAttribute("titulo", "Cadastrar Novo Usuário");
             model.addAttribute("action", "/admin/usuarios");
-            return "usuarios/form";
+            return "templates/usuarios/form";
         }
 
         try {
@@ -66,7 +66,7 @@ public class UsuarioControllerView {
             model.addAttribute("erro", "Erro ao cadastrar usuário: " + e.getMessage());
             model.addAttribute("titulo", "Cadastrar Novo Usuário");
             model.addAttribute("action", "/admin/usuarios");
-            return "usuarios/form";
+            return "templates/usuarios/form";
         }
     }
 
@@ -85,7 +85,7 @@ public class UsuarioControllerView {
         model.addAttribute("titulo", "Editar Usuário");
         model.addAttribute("action", "/admin/usuarios/" + id);
         model.addAttribute("method", "put");
-        return "usuarios/form";
+        return "templates/usuarios/form";
     }
 
     @PutMapping("/{id}")
@@ -100,7 +100,7 @@ public class UsuarioControllerView {
             model.addAttribute("titulo", "Editar Usuário");
             model.addAttribute("action", "/admin/usuarios/" + id);
             model.addAttribute("method", "put");
-            return "usuarios/form";
+            return "templates/usuarios/form";
         }
 
         try {
@@ -112,7 +112,7 @@ public class UsuarioControllerView {
             model.addAttribute("titulo", "Editar Usuário");
             model.addAttribute("action", "/admin/usuarios/" + id);
             model.addAttribute("method", "put");
-            return "usuarios/form";
+            return "templates/usuarios/form";
         }
     }
 
@@ -121,7 +121,7 @@ public class UsuarioControllerView {
         Usuario usuario = usuarioService.obterPorId(id);
         model.addAttribute("usuario", usuario);
         model.addAttribute("titulo", "Detalhes do Usuário");
-        return "usuarios/detalhes";
+        return "templates/usuarios/detalhes";
     }
 
     // Excluir usuário
@@ -142,6 +142,6 @@ public class UsuarioControllerView {
         Usuario usuario = usuarioService.obterPorId(id);
         model.addAttribute("usuario", usuario);
         model.addAttribute("titulo", "Confirmar Exclusão");
-        return "usuarios/confirmar-exclusao";
+        return "templates/usuarios/confirmar-exclusao";
     }
 }

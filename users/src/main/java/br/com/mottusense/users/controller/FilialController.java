@@ -20,7 +20,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/filiais")
+@RequestMapping("/templates/filiais")
 public class FilialController {
 
     private FilialService filialService;

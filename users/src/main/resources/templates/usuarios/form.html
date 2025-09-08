@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Usuário'">Usuário</title>
+</head>
+<body>
+<section>
+    <form class="grid cols-2" th:action="${action}" th:object="${usuarioDTO}" method="post">
+        <input th:if="${method}" type="hidden" name="_method" th:value="${method}" />
+
+        <div class="full">
+            <label for="nomeUsuario">Nome</label>
+            <input id="nomeUsuario" th:field="*{nomeUsuario}" placeholder="Nome completo" required />
+            <div class="error" th:if="${#fields.hasErrors('nomeUsuario')}" th:errors="*{nomeUsuario}"></div>
+        </div>
+
+        <div>
+            <label for="cpfUsuario">CPF</label>
+            <input id="cpfUsuario" th:field="*{cpfUsuario}" placeholder="Somente números" />
+            <div class="error" th:if="${#fields.hasErrors('cpfUsuario')}" th:errors="*{cpfUsuario}"></div>
+        </div>
+
+        <div>
+            <label for="emailUsuario">Email</label>
+            <input id="emailUsuario" type="email" th:field="*{emailUsuario}" placeholder="email@exemplo.com" />
+            <div class="error" th:if="${#fields.hasErrors('emailUsuario')}" th:errors="*{emailUsuario}"></div>
+        </div>
+
+        <div class="full">
+            <label for="senhaUsuario">Senha</label>
+            <input id="senhaUsuario" type="password" th:field="*{senhaUsuario}" placeholder="••••••••" required />
+            <div class="error" th:if="${#fields.hasErrors('senhaUsuario')}" th:errors="*{senhaUsuario}"></div>
+        </div>
+
+        <div>
+            <label for="dia">Dia Nasc.</label>
+            <input id="dia" type="number" min="1" max="31" th:field="*{dia}" placeholder="01" />
+            <div class="error" th:if="${#fields.hasErrors('dia')}" th:errors="*{dia}"></div>
+        </div>
+
+        <div>
+            <label for="mes">Mês Nasc.</label>
+            <input id="mes" type="number" min="1" max="12" th:field="*{mes}" placeholder="01" />
+            <div class="error" th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></div>
+        </div>
+
+        <div class="full">
+            <label for="ano">Ano Nasc.</label>
+            <input id="ano" type="number" min="1900" max="2100" th:field="*{ano}" placeholder="2000" />
+            <div class="error" th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></div>
+        </div>
+
+        <div class="full" style="display:flex; gap:8px; margin-top:8px;">
+            <a class="btn secondary" th:href="@{'/admin/usuarios'}">Cancelar</a>
+            <button class="btn primary" type="submit">Salvar</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

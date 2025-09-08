@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Detalhes do Usuário'">Detalhes do Usuário</title>
+</head>
+<body>
+<section>
+    <dl class="grid" style="grid-template-columns:220px 1fr;">
+        <div><strong>ID</strong></div><div th:text="${usuario.idUsuario}">id</div>
+        <div><strong>Nome</strong></div><div th:text="${usuario.nomeUsuario}">nome</div>
+        <div><strong>CPF</strong></div><div th:text="${usuario.cpfUsuario}">cpf</div>
+        <div><strong>Email</strong></div><div th:text="${usuario.emailUsuario}">email</div>
+        <div><strong>Telefone</strong></div><div th:text="${usuario.telefoneUsuario}">telefone</div>
+        <div><strong>Data de Nascimento</strong></div><div th:text="${usuario.dataNascimentoUsuario}">1990-01-01</div>
+        <div><strong>Data de Criação</strong></div><div th:text="${usuario.dataCriacaoUsuario}">2025-01-01T10:00</div>
+    </dl>
+
+    <div class="actions" style="margin-top:12px;">
+        <a class="btn secondary" th:href="@{'/admin/usuarios'}">Voltar</a>
+        <a class="btn primary" th:href="@{'/admin/usuarios/' + ${usuario.idUsuario} + '/editar'}">Editar</a>
+        <a class="btn secondary" th:href="@{'/admin/usuarios/' + ${usuario.idUsuario} + '/excluir'}">Excluir</a>
+    </div>
+</section>
+</body>
+</html>

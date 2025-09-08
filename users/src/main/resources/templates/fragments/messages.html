@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="flashMessages">
+    <div th:if="${sucesso}" style="background:#e7f6ec; border:1px solid #bfe5c8; color:#116338; padding:10px 12px; border-radius:8px; margin-bottom:12px;"
+         th:text="${sucesso}"></div>
+    <div th:if="${erro}" style="background:#fde8e8; border:1px solid #f5c2c2; color:#7f1d1d; padding:10px 12px; border-radius:8px; margin-bottom:12px;"
+         th:text="${erro}"></div>
+</div>
+</body>
+</html>

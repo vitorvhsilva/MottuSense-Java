@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/templates/usuarios")
 @AllArgsConstructor
 public class UsuarioController {
 

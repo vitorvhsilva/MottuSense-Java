@@ -31,9 +31,9 @@ public class FilialControllerView {
     @GetMapping
     public String listarFiliais(Model model) {
         List<Filial> filiais = filialService.listarFiliais();
-        model.addAttribute("filiais", filiais);
+        model.addAttribute("templates/filiais", filiais);
         model.addAttribute("titulo", "Gerenciamento de Filiais");
-        return "filiais/lista";
+        return "templates/filiais/lista";
     }
 
     // Formulário de cadastro de filial
@@ -42,7 +42,7 @@ public class FilialControllerView {
         model.addAttribute("filialDTO", new CadastroFilialRequestDTO());
         model.addAttribute("titulo", "Cadastrar Nova Filial");
         model.addAttribute("action", "/admin/filiais");
-        return "filiais/form";
+        return "templates/filiais/form";
     }
 
     // Processar cadastro de filial
@@ -56,7 +56,7 @@ public class FilialControllerView {
         if (result.hasErrors()) {
             model.addAttribute("titulo", "Cadastrar Nova Filial");
             model.addAttribute("action", "/admin/filiais");
-            return "filiais/form";
+            return "templates/filiais/form";
         }
 
         try {
@@ -70,7 +70,7 @@ public class FilialControllerView {
             model.addAttribute("erro", "Erro ao cadastrar filial: " + e.getMessage());
             model.addAttribute("titulo", "Cadastrar Nova Filial");
             model.addAttribute("action", "/admin/filiais");
-            return "filiais/form";
+            return "templates/filiais/form";
         }
     }
 
@@ -89,7 +89,7 @@ public class FilialControllerView {
         model.addAttribute("titulo", "Editar Filial");
         model.addAttribute("action", "/admin/filiais/" + id);
         model.addAttribute("method", "put");
-        return "filiais/form";
+        return "templates/filiais/form";
     }
 
     // Processar edição de filial
@@ -105,7 +105,7 @@ public class FilialControllerView {
             model.addAttribute("titulo", "Editar Filial");
             model.addAttribute("action", "/admin/filiais/" + id);
             model.addAttribute("method", "put");
-            return "filiais/form";
+            return "templates/filiais/form";
         }
 
         try {
@@ -123,7 +123,7 @@ public class FilialControllerView {
             model.addAttribute("titulo", "Editar Filial");
             model.addAttribute("action", "/admin/filiais/" + id);
             model.addAttribute("method", "put");
-            return "filiais/form";
+            return "templates/filiais/form";
         }
     }
 
@@ -133,7 +133,7 @@ public class FilialControllerView {
         Filial filial = filialService.obterPorId(id);
         model.addAttribute("filial", filial);
         model.addAttribute("titulo", "Detalhes da Filial");
-        return "filiais/detalhes";
+        return "templates/filiais/detalhes";
     }
 
     // Excluir filial
@@ -154,7 +154,7 @@ public class FilialControllerView {
         Filial filial = filialService.obterPorId(id);
         model.addAttribute("filial", filial);
         model.addAttribute("titulo", "Confirmar Exclusão");
-        return "filiais/confirmar-exclusao";
+        return "templates/filiais/confirmar-exclusao";
     }
 
     @GetMapping("/buscar")
@@ -175,8 +175,8 @@ public class FilialControllerView {
             filiais = filialService.listarFiliais();
         }
 
-        model.addAttribute("filiais", filiais);
+        model.addAttribute("templates/filiais", filiais);
         model.addAttribute("titulo", "Resultado da Busca");
-        return "filiais/lista";
+        return "templates/filiais/lista";
     }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Detalhes da Filial'">Detalhes da Filial</title>
+</head>
+<body>
+<section>
+    <dl class="grid" style="grid-template-columns:220px 1fr;">
+        <div><strong>ID</strong></div><div th:text="${filial.idFilial}">id</div>
+        <div><strong>Nome</strong></div><div th:text="${filial.nomeFilial}">nome</div>
+
+        <div><strong>CEP</strong></div>
+        <div th:text="${filial.localizacao != null ? filial.localizacao.cepLocalizacao : '-'}">cep</div>
+
+        <div><strong>Logradouro</strong></div>
+        <div th:text="${filial.localizacao != null ? filial.localizacao.logradouroLocalizacao : '-'}">logradouro</div>
+
+        <div><strong>Bairro</strong></div>
+        <div th:text="${filial.localizacao != null ? filial.localizacao.bairroLocalizacao : '-'}">bairro</div>
+
+        <div><strong>Estado</strong></div>
+        <div th:text="${filial.localizacao != null ? filial.localizacao.estadoLocalizacao : '-'}">estado</div>
+
+        <div><strong>Região</strong></div>
+        <div th:text="${filial.localizacao != null ? filial.localizacao.regiaoLocalizacao : '-'}">regiao</div>
+    </dl>
+
+    <div class="actions" style="margin-top:12px;">
+        <a class="btn secondary" th:href="@{'/admin/filiais'}">Voltar</a>
+        <a class="btn primary" th:href="@{'/admin/filiais/' + ${filial.idFilial} + '/editar'}">Editar</a>
+        <a class="btn secondary" th:href="@{'/admin/filiais/' + ${filial.idFilial} + '/excluir'}">Excluir</a>
+    </div>
+</section>
+</body>
+</html>

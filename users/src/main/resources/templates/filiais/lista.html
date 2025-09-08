@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Gerenciamento de Filiais'">Gerenciamento de Filiais</title>
+</head>
+<body>
+<section>
+    <div class="toolbar">
+        <form class="search" th:action="@{'/admin/filiais/buscar'}" method="get">
+            <label for="id" class="muted">Buscar por ID:</label>
+            <input id="id" name="id" type="text" th:value="${termoBusca}" placeholder="ID da filial" />
+            <button class="btn secondary" type="submit">Buscar</button>
+        </form>
+        <div>
+            <a class="btn primary" th:href="@{'/admin/filiais/nova'}">Nova filial</a>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CEP</th>
+            <th>Estado</th>
+            <th>Região</th>
+            <th style="width:240px;">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(filiais)}">
+            <td colspan="6"><em>Nenhuma filial encontrada.</em></td>
+        </tr>
+        <tr th:each="f : ${filiais}">
+            <td th:text="${f.idFilial}">id</td>
+            <td th:text="${f.nomeFilial}">nome</td>
+            <td th:text="${f.localizacao != null ? f.localizacao.cepLocalizacao : ''}">cep</td>
+            <td th:text="${f.localizacao != null ? f.localizacao.estadoLocalizacao : ''}">estado</td>
+            <td th:text="${f.localizacao != null ? f.localizacao.regiaoLocalizacao : ''}">regiao</td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{'/admin/filiais/' + ${f.idFilial}}">Detalhes</a>
+                <a class="btn secondary" th:href="@{'/admin/filiais/' + ${f.idFilial} + '/editar'}">Editar</a>
+                <a class="btn secondary" th:href="@{'/admin/filiais/' + ${f.idFilial} + '/excluir'}">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

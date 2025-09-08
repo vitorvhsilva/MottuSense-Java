@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Confirmar Exclusão'">Confirmar Exclusão</title>
+</head>
+<body>
+<section>
+    <div style="border:1px solid #e5e5e5; border-radius:10px; padding:16px; max-width:640px;">
+        <p style="color:#7f1d1d;">
+            <strong>Atenção:</strong> Esta ação não poderá ser desfeita.
+        </p>
+        <p>
+            Deseja excluir o usuário <strong th:text="${usuario.nomeUsuario}">nome</strong>
+            (ID <code th:text="${usuario.idUsuario}">id</code>)?
+        </p>
+
+        <form th:action="@{'/admin/usuarios/' + ${usuario.idUsuario}}" method="post" style="display:flex; gap:8px; margin-top:12px;">
+            <input type="hidden" name="_method" value="delete" />
+            <a class="btn secondary" th:href="@{'/admin/usuarios'}">Cancelar</a>
+            <button class="btn danger" type="submit">Excluir</button>
+        </form>
+    </div>
+</section>
+</body>
+</html>

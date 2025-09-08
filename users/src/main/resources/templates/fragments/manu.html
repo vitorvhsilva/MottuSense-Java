@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="menu">
+    <a th:href="@{'/admin/usuarios'}"
+       th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/usuarios')} ? ' active'">Usuários</a>
+    <a th:href="@{'/admin/filiais'}"
+       th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/filiais')} ? ' active'">Filiais</a>
+</div>
+</body>
+</html>

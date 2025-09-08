@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: base(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${titulo} ?: 'Filial'">Filial</title>
+</head>
+<body>
+<section>
+    <form class="grid cols-2" th:action="${action}" th:object="${filialDTO}" method="post">
+        <input th:if="${method}" type="hidden" name="_method" th:value="${method}" />
+
+        <div class="full">
+            <label for="nomeFilial">Nome da Filial</label>
+            <input id="nomeFilial" th:field="*{nomeFilial}" placeholder="Ex.: Matriz São Paulo" required />
+            <div class="error" th:if="${#fields.hasErrors('nomeFilial')}" th:errors="*{nomeFilial}"></div>
+        </div>
+
+        <div class="full">
+            <label for="cep">CEP</label>
+            <input id="cep" th:field="*{cep}" placeholder="Somente números" required />
+            <div class="error" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></div>
+        </div>
+
+        <div class="full" style="display:flex; gap:8px; margin-top:8px;">
+            <a class="btn secondary" th:href="@{'/admin/filiais'}">Cancelar</a>
+            <button class="btn primary" type="submit">Salvar</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

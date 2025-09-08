@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+    <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+            <div style="font-weight:800">MottuSense Admin</div>
+            <div class="muted" th:text="${titulo} ?: 'Painel'">Painel</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

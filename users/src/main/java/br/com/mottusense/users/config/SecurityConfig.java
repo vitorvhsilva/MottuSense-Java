@@ -20,12 +20,12 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(
                         authorizeConfig -> {
-                            authorizeConfig.requestMatchers("/usuarios").permitAll();
+                            authorizeConfig.requestMatchers("/templates/usuarios").permitAll();
                             authorizeConfig.requestMatchers("/logout").permitAll();
                             authorizeConfig.anyRequest().authenticated();
                         })
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/usuarios   ", true) // Caso o login funcione, irá para esta página
+                        .defaultSuccessUrl("/templates/usuarios   ", true) // Caso o login funcione, irá para esta página
                         .permitAll()
                 )
                 .logout(logout -> logout
