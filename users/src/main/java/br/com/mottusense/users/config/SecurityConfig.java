@@ -20,12 +20,12 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(
                         authorizeConfig -> {
-                            authorizeConfig.requestMatchers("/usuarios").permitAll();
+                            authorizeConfig.requestMatchers("/usuariosview/listar").permitAll();
                             authorizeConfig.requestMatchers("/logout").permitAll();
                             authorizeConfig.anyRequest().authenticated();
                         })
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/usuarios   ", true) // Caso o login funcione, irá para esta página
+                        .defaultSuccessUrl("/usuariosview/listar   ", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .password("teste")
                 .roles("ADMIN, USER")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(user); 
     }
 
 }
