@@ -21,7 +21,7 @@ public class Filial {
     private String nomeFilial;
 
     @ManyToMany(mappedBy = "filiais", cascade = CascadeType.ALL)
-    private List<Usuario> usuario;
+    private List<Usuario> usuarios;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_localizacao")

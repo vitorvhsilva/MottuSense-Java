@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Filiais</title>
+    <style>
+        body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+        .topbar { display:flex; justify-content: space-between; align-items:center; margin-bottom:16px; }
+        .btn { padding:8px 12px; border:1px solid #333; background:#fff; cursor:pointer; text-decoration:none; }
+        table { width:100%; border-collapse:collapse; }
+        th, td { border:1px solid #ddd; padding:8px; text-align:left; }
+        th { background:#f8f8f8; }
+        .alert-success { background:#dcfce7; color:#166534; padding:10px; border-radius:8px; margin:12px 0; }
+        .muted { color:#666; }
+        .actions a { margin-right:8px; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>Filiais</h1>
+    <a class="btn" th:href="@{/filiaisview/adicionar}">Nova Filial</a>
+</div>
+
+<!-- Banner de sucesso vindo por query param (?sucesso=1) ou por atributo de modelo 'sucesso' -->
+<div class="alert-success" th:if="${param.sucesso} != null or ${sucesso} != null">
+    <span th:text="${sucesso} ?: 'Operação realizada com sucesso'">Operação realizada com sucesso</span>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CEP</th>
+        <th>Logradouro</th>
+        <th>Bairro</th>
+        <th>Estado</th>
+        <th>Região</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="f : ${filiais}">
+        <td th:text="${f.idFilial}">id</td>
+        <td th:text="${f.nomeFilial}">nome</td>
+        <td th:text="${f.localizacao?.cepLocalizacao}">cep</td>
+        <td th:text="${f.localizacao?.logradouroLocalizacao}">logradouro</td>
+        <td th:text="${f.localizacao?.bairroLocalizacao}">bairro</td>
+        <td th:text="${f.localizacao?.estadoLocalizacao}">estado</td>
+        <td th:text="${f.localizacao?.regiaoLocalizacao}">região</td>
+        <td class="actions">
+            <a th:href="@{/filiaisview/editar/{id}(id=${f.idFilial})}">Editar</a>
+            <a th:href="@{/filiaisview/excluir/{id}(id=${f.idFilial})}" onclick="return confirm('Excluir esta filial?')">Excluir</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(filiais)}">
+        <td colspan="8" class="muted">Nenhuma filial encontrada.</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

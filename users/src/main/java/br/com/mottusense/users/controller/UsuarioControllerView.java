@@ -53,8 +53,8 @@ public class UsuarioControllerView {
 
         AtualizarUsuarioRequestDTO dto = mapper.map(usuario, AtualizarUsuarioRequestDTO.class);
 
+        model.addAttribute("idUsuario", id);
         model.addAttribute("usuario", dto);
-        model.addAttribute("id", id);
         return "usuarios/editarUsuario";
     }
 
