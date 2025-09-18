@@ -26,7 +26,6 @@ public class FilialControllerView {
     private final LocalizacaoService localizacaoService;
     private final ModelMapper mapper;
 
-    // GET /filiaisview/listar  -> templates/filiais/listarFiliais.html
     @GetMapping("/listar")
     public String listar(@RequestParam(value = "sucesso", required = false) String sucesso,
                          Model model) {
@@ -40,14 +39,12 @@ public class FilialControllerView {
         return "filiais/listar";
     }
 
-    // GET /filiaisview/adicionar -> templates/filiais/adicionarFilial.html
     @GetMapping("/adicionar")
     public String adicionar(Model model) {
         model.addAttribute("filial", new CadastroFilialRequestDTO());
         return "filiais/adicionar";
     }
 
-    // POST /filiaisview/salvar
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("filial") CadastroFilialRequestDTO dto,
                          BindingResult br,
@@ -60,7 +57,6 @@ public class FilialControllerView {
             Filial entidade = mapper.map(dto, Filial.class);
             Filial salva = filialService.salvar(entidade);
 
-            // Se seu DTO possui CEP (como na REST), persiste a localização
             if (dto.getCep() != null && !dto.getCep().isBlank()) {
                 localizacaoService.persistirLocalizacao(dto.getCep(), salva);
             }
@@ -73,7 +69,6 @@ public class FilialControllerView {
         }
     }
 
-    // GET /filiaisview/editar/{id} -> templates/filiais/editarFilial.html
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable String id, Model model) {
         Filial filial = filialService.obterPorId(id);
@@ -84,7 +79,6 @@ public class FilialControllerView {
         return "filiais/editarFilial";
     }
 
-    // POST /filiaisview/atualizar/{id}
     @PostMapping("/atualizar/{id}")
     public String atualizar(@PathVariable String id,
                             @Valid @ModelAttribute("filial") AtualizarFilialRequestDTO dto,
@@ -106,15 +100,10 @@ public class FilialControllerView {
         }
     }
 
-    // POST /filiaisview/deletar/{id}
-    @PostMapping("/deletar/{id}")
-    public String deletar(@PathVariable String id, RedirectAttributes ra) {
-        try {
-            filialService.deletarPorId(id);
-            ra.addFlashAttribute("sucesso", "Filial excluída com sucesso");
-        } catch (Exception e) {
-            ra.addFlashAttribute("erro", "Não foi possível excluir a filial.");
-        }
+    @PostMapping("/excluir/{id}")
+    public String excluir(@PathVariable String id, RedirectAttributes ra) {
+        filialService.deletarPorId(id);
+        ra.addFlashAttribute("sucesso", "Filial excluída com sucesso");
         return "redirect:/filiaisview/listar";
     }
 }

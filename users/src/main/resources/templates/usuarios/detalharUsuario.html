@@ -8,9 +8,12 @@
         .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; max-width: 720px; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .item { margin-bottom: 8px; }
-        .label { font-weight: 600; color: #555; display:block; }
+        .label { font-weight: 600; color: #555; display:block; margin-bottom: 4px; }
         .actions { margin-top: 16px; display: flex; gap: 8px; }
         a.btn { padding: 8px 12px; border: 1px solid #333; text-decoration: none; }
+        .password-wrap { display:flex; gap:8px; align-items:center; }
+        .password-wrap input { width: 100%; padding: 8px; border:1px solid #ddd; border-radius:6px; }
+        .toggle-btn { padding: 6px 10px; border:1px solid #333; background:#fff; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -18,17 +21,45 @@
 
 <div class="card" th:with="u=${usuario}">
     <div class="item"><span class="label">ID</span><span th:text="${u.idUsuario}">id</span></div>
+
     <div class="row">
-        <div class="item"><span class="label">Nome</span><span th:text="${u.nomeUsuario}">Nome</span></div>
-        <div class="item"><span class="label">Email</span><span th:text="${u.emailUsuario}">email@exemplo.com</span></div>
+        <div class="item">
+            <span class="label">Nome</span>
+            <span th:text="${u.nomeUsuario}">Nome</span>
+        </div>
+        <div class="item">
+            <span class="label">Email</span>
+            <span th:text="${u.emailUsuario}">email@exemplo.com</span>
+        </div>
     </div>
+
     <div class="row">
-        <div class="item"><span class="label">CPF</span><span th:text="${u.cpfUsuario}">000.000.000-00</span></div>
-        <div class="item"><span class="label">Telefone</span><span th:text="${u.telefoneUsuario}">(00) 90000-0000</span></div>
+        <div class="item">
+            <span class="label">CPF</span>
+            <span th:text="${u.cpfUsuario}">000.000.000-00</span>
+        </div>
+        <div class="item">
+            <span class="label">Telefone</span>
+            <span th:text="${u.telefoneUsuario}">(00) 90000-0000</span>
+        </div>
     </div>
+
     <div class="item">
         <span class="label">Data de Nascimento</span>
         <span th:text="${u.dataNascimentoUsuario != null ? #temporals.format(u.dataNascimentoUsuario, 'dd/MM/yyyy') : '-'}">01/01/2000</span>
+    </div>
+
+    <!-- Senha (oculta por padrão, somente leitura) -->
+    <div class="item">
+        <span class="label">Senha</span>
+        <div class="password-wrap">
+            <input id="senhaUsuario"
+                   type="password"
+                   th:value="${u.senhaUsuario}"
+                   readonly
+                   aria-label="Senha do usuário" />
+            <button type="button" class="toggle-btn" onclick="toggleSenha()">Mostrar</button>
+        </div>
     </div>
 
     <div class="actions">
@@ -38,5 +69,19 @@
            onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
     </div>
 </div>
+
+<script>
+    function toggleSenha() {
+        const input = document.getElementById('senhaUsuario');
+        const btn = event.currentTarget;
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = 'Ocultar';
+        } else {
+            input.type = 'password';
+            btn.textContent = 'Mostrar';
+        }
+    }
+</script>
 </body>
 </html>
