@@ -4,69 +4,181 @@
     <meta charset="UTF-8" />
     <title>Filiais</title>
     <style>
-        body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
-        .topbar { display:flex; justify-content: space-between; align-items:center; margin-bottom:16px; }
-        .btn { padding:8px 12px; border:1px solid #333; background:#fff; cursor:pointer; text-decoration:none; }
-        table { width:100%; border-collapse:collapse; }
-        th, td { border:1px solid #ddd; padding:8px; text-align:left; }
-        th { background:#f8f8f8; }
-        .alert-success { background:#dcfce7; color:#166534; padding:10px; border-radius:8px; margin:12px 0; }
-        .muted { color:#666; }
-        .actions a, .actions form { display:inline-block; margin-right:8px; }
-        .btn-link { background:none; border:none; padding:0; margin:0; cursor:pointer; color:#0645AD; text-decoration:underline; font: inherit; }
-        .btn-link:hover { text-decoration:none; }
+        :root {
+          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --table-head:#f8f8f8;
+          --success-bg:#dcfce7; --success-fg:#166534;
+        }
+        .dark {
+          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --table-head:#0b1220;
+          --success-bg:#064e3b; --success-fg:#bbf7d0;
+        }
+
+        html,body{height:100%}
+        body{margin:0; font-family:system-ui, Arial, sans-serif; background:var(--bg); color:var(--fg);
+             display:flex; flex-direction:column; min-height:100%}
+
+        /* Header */
+        header{position:sticky; top:0; z-index:10; background:var(--bg);
+               border-bottom:1px solid var(--border); padding:12px 24px;}
+        .topbar{display:flex; gap:16px; align-items:center; justify-content:space-between;}
+        .brand{font-weight:700}
+        .actions-bar{display:flex; gap:12px; align-items:center;}
+        .btn, .btn-link, nav a{
+          border:1px solid var(--border); background:transparent; color:var(--fg);
+          padding:6px 10px; border-radius:8px; cursor:pointer; text-decoration:none;
+        }
+        .btn-link{border:none; text-decoration:underline; padding:0}
+        nav a{margin-right:8px}
+        input[type="search"]{
+          border:1px solid var(--border); border-radius:8px; padding:8px 10px; background:transparent; color:var(--fg);
+          min-width:260px;
+        }
+
+        /* Main / table */
+        main{flex:1; padding:24px}
+        table{width:100%; border-collapse:collapse}
+        th, td{border:1px solid #ddd; padding:8px; text-align:left}
+        th{background:var(--table-head)}
+        .alert-success{background:var(--success-bg); color:var(--success-fg); padding:10px; border-radius:8px; margin:12px 0}
+        .muted{color:var(--muted)}
+        .actions a, .actions form{display:inline-block; margin-right:8px}
+
+        /* Footer */
+        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px}
+        .stats{color:var(--muted)}
+        .right{display:flex; gap:8px; align-items:center}
     </style>
 </head>
 <body>
 
-<div class="topbar">
-    <h1>Filiais</h1>
-    <a class="btn" th:href="@{/filiaisview/adicionar}">Nova Filial</a>
-</div>
+<!-- HEADER com navegação, busca e tema -->
+<header>
+    <div class="topbar">
+        <div class="brand">MottuSense • Filiais</div>
+        <nav>
+            <a th:href="@{/usuariosview/listar}">Usuários</a>
+        </nav>
+        <div class="actions-bar">
+            <input id="q" type="search" placeholder="Pesquisar (/, Enter) — nome, CEP, estado..." aria-label="Pesquisar filiais" />
+            <button id="toggleTheme" class="btn" type="button">Tema</button>
+            <a class="btn" th:href="@{/filiaisview/adicionar}">Nova Filial</a>
+        </div>
+    </div>
+</header>
 
-<!-- Banner de sucesso vindo por query param (?sucesso=1) ou por atributo de modelo 'sucesso' -->
-<div class="alert-success" th:if="${param.sucesso} != null or ${sucesso} != null">
-    <span th:text="${sucesso} ?: 'Operação realizada com sucesso'">Operação realizada com sucesso</span>
-</div>
+<main>
+    <!-- Banner de sucesso vindo por query param (?sucesso=1) ou por atributo de modelo 'sucesso' -->
+    <div class="alert-success" th:if="${param.sucesso} != null or ${sucesso} != null">
+        <span th:text="${sucesso} ?: 'Operação realizada com sucesso'">Operação realizada com sucesso</span>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>CEP</th>
-        <th>Logradouro</th>
-        <th>Bairro</th>
-        <th>Estado</th>
-        <th>Região</th>
-        <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="f : ${filiais}">
-        <td th:text="${f.idFilial}">id</td>
-        <td th:text="${f.nomeFilial}">nome</td>
-        <td th:text="${f.localizacao?.cepLocalizacao}">cep</td>
-        <td th:text="${f.localizacao?.logradouroLocalizacao}">logradouro</td>
-        <td th:text="${f.localizacao?.bairroLocalizacao}">bairro</td>
-        <td th:text="${f.localizacao?.estadoLocalizacao}">estado</td>
-        <td th:text="${f.localizacao?.regiaoLocalizacao}">região</td>
-        <td class="actions">
-            <a th:href="@{/filiaisview/editar/{id}(id=${f.idFilial})}">Editar</a>
+    <table id="tbl">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CEP</th>
+            <th>Logradouro</th>
+            <th>Bairro</th>
+            <th>Estado</th>
+            <th>Região</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr th:each="f : ${filiais}">
+            <td th:text="${f.idFilial}">id</td>
+            <td th:text="${f.nomeFilial}">nome</td>
+            <td th:text="${f.localizacao?.cepLocalizacao}">cep</td>
+            <td th:text="${f.localizacao?.logradouroLocalizacao}">logradouro</td>
+            <td th:text="${f.localizacao?.bairroLocalizacao}">bairro</td>
+            <td th:text="${f.localizacao?.estadoLocalizacao}">estado</td>
+            <td th:text="${f.localizacao?.regiaoLocalizacao}">região</td>
+            <td class="actions">
+                <a th:href="@{/filiaisview/editar/{id}(id=${f.idFilial})}">Editar</a>
 
-            <!-- Excluir via POST (com CSRF) -->
-            <form th:action="@{/filiaisview/excluir/{id}(id=${f.idFilial})}" method="post"
-                  onsubmit="return confirm('Excluir esta filial?')">
-                <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
-                <button type="submit" class="btn-link">Excluir</button>
-            </form>
-        </td>
-    </tr>
-    <tr th:if="${#lists.isEmpty(filiais)}">
-        <td colspan="8" class="muted">Nenhuma filial encontrada.</td>
-    </tr>
-    </tbody>
-</table>
+                <!-- Excluir via POST (com CSRF) -->
+                <form th:action="@{/filiaisview/excluir/{id}(id=${f.idFilial})}" method="post"
+                      onsubmit="return confirm('Excluir esta filial?')">
+                    <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+                    <button type="submit" class="btn-link">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(filiais)}">
+            <td colspan="8" class="muted">Nenhuma filial encontrada.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
 
+<!-- FOOTER com contadores e exportação CSV -->
+<footer>
+    <div class="stats">
+        Total: <strong id="countTotal" th:text="${filiais != null ? #lists.size(filiais) : 0}">0</strong> •
+        Visíveis: <strong id="countVisible">0</strong>
+    </div>
+    <div class="right">
+        <button id="toTop" class="btn" type="button">Topo</button>
+    </div>
+</footer>
+
+<script>
+    // Tema persistente
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') root.classList.add('dark');
+      btn.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      });
+    })();
+
+    // Filtro rápido na tabela
+    (function(){
+      const q = document.getElementById('q');
+      const tbody = document.getElementById('tbody');
+      const rows = () => Array.from(tbody.querySelectorAll('tr')).filter(tr => tr.children.length > 1); // ignora "nenhuma filial"
+      const countVisible = document.getElementById('countVisible');
+
+      function applyFilter() {
+        const term = q.value.trim().toLowerCase();
+        let visible = 0;
+        rows().forEach(tr => {
+          const txt = tr.innerText.toLowerCase();
+          const show = term === '' || txt.includes(term);
+          tr.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        countVisible.textContent = String(visible);
+      }
+
+      // Inicializa contagem
+      window.addEventListener('DOMContentLoaded', applyFilter);
+
+      q.addEventListener('input', applyFilter);
+
+      // Atalhos: "/" foca a busca, Enter aplica (já aplica em input)
+      window.addEventListener('keydown', (e)=>{
+        if (e.key === '/' && document.activeElement !== q) {
+          e.preventDefault();
+          q.focus();
+        }
+      });
+    })();
+
+    // Voltar ao topo
+    document.getElementById('toTop').addEventListener('click', () => {
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+
+    // Atualiza "Visíveis" no load completo (caso o DOMContentLoaded dispare antes de Thymeleaf renderizar)
+    window.addEventListener('load', ()=>{
+      const evt = new Event('input');
+      document.getElementById('q').dispatchEvent(evt);
+    });
+</script>
 </body>
 </html>

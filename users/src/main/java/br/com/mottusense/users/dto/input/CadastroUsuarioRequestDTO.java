@@ -12,8 +12,8 @@ public class CadastroUsuarioRequestDTO {
     @Size(min = 3, message = "O nome deve ter mais de 3 caracteres;")
     private String nomeUsuario;
 
-    @NotBlank(message = "É necessário digitar um cpf")
-    @Size(min = 11, max = 11)
+    @NotBlank(message = "O CPF não pode estar vazio")
+    @Size(min = 11, max = 11, message = "O CPF deve ter 11 digitos")
     private String cpfUsuario;
 
     @NotBlank(message = "É necessário digitar um número de telefone")
@@ -30,7 +30,7 @@ public class CadastroUsuarioRequestDTO {
     @NotNull(message = "É necessário digitar o dia de sua data de nascimento")
     private Integer dia;
 
-    @NotNull(message = "É necessário digitar o mes de sua data de nascimento")
+    @NotNull(message = "É necessário digitar o mês de sua data de nascimento")
     private Integer mes;
 
     @NotNull(message = "É necessário digitar o ano de sua data de nascimento")

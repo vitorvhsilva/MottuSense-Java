@@ -1,37 +1,155 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8"/>
     <title>Usuários</title>
+    <style>
+        :root{
+          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --thead:#f8f8f8;
+          --info-bg:#e0f2fe; --info-fg:#075985;
+        }
+        .dark{
+          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --thead:#0b1220;
+          --info-bg:#083344; --info-fg:#a5f3fc;
+        }
+        html,body{height:100%}
+        body{margin:0; font-family:system-ui, Arial, sans-serif; background:var(--bg); color:var(--fg);
+             display:flex; flex-direction:column; min-height:100%}
+
+        header{position:sticky; top:0; z-index:10; background:var(--bg);
+               border-bottom:1px solid var(--border); padding:12px 24px}
+        .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px}
+        .brand{font-weight:700}
+        nav a{margin-right:8px; text-decoration:none; border:1px solid var(--border); padding:6px 10px; border-radius:8px; color:var(--fg)}
+        .actions-bar{display:flex; gap:12px; align-items:center}
+        input[type="search"]{border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+                             background:transparent; color:var(--fg); min-width:260px}
+        .btn{border:1px solid var(--border); background:transparent; color:var(--fg);
+             padding:6px 10px; border-radius:8px; cursor:pointer}
+
+        main{flex:1; padding:24px}
+        h1{margin:0 0 12px 0}
+        .alert{background:var(--info-bg); color:var(--info-fg); padding:10px; border-radius:8px; margin:12px 0}
+
+        table{width:100%; border-collapse:collapse; margin-top:12px}
+        thead th{background:var(--thead)}
+        th, td{border:1px solid #ddd; padding:8px; text-align:left}
+
+        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; gap:16px; justify-content:space-between; align-items:center}
+        .stats{color:var(--muted)}
+    </style>
 </head>
 <body>
-<h1>Usuários</h1>
 
-<div th:if="${#lists.isEmpty(usuarios)}" class="alert alert-info">
-    Nenhum usuário encontrado.
-</div>
+<!-- HEADER com navegação, busca e tema -->
+<header>
+    <div class="topbar">
+        <div class="brand">MottuSense • Usuários</div>
+        <nav>
+            <a th:href="@{/filiaisview/listar}">Filiais</a>
+        </nav>
+        <div class="actions-bar">
+            <input id="q" type="search" placeholder="Pesquisar (/, Enter) — nome ou e-mail" aria-label="Pesquisar usuários">
+            <button id="toggleTheme" class="btn" type="button" title="Alternar tema">Tema</button>
+            <a class="btn" th:href="@{/usuariosview/adicionar}">Novo usuário</a>
+        </div>
+    </div>
+</header>
 
-<table th:if="${!#lists.isEmpty(usuarios)}" border="1">
-    <thead>
-    <tr>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="u : ${usuarios}">
-        <td th:text="${u.nomeUsuario}">nome</td>
-        <td th:text="${u.emailUsuario}">email</td>
-        <td>
-            <a th:href="@{'/usuariosview/detalhar/' + ${u.idUsuario}}">Detalhar</a>
-            <a th:href="@{'/usuariosview/editar/' + ${u.idUsuario}}">Editar</a>
-            <a th:href="@{'/usuariosview/excluir/' + ${u.idUsuario}}">Excluir</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<main>
+    <h1>Usuários</h1>
 
-<p><a th:href="@{/usuariosview/adicionar}">Novo usuário</a></p>
+    <div th:if="${#lists.isEmpty(usuarios)}" class="alert">
+        Nenhum usuário encontrado.
+    </div>
+
+    <!-- Mantive seu th:if original na tabela -->
+    <table th:if="${!#lists.isEmpty(usuarios)}" border="1" id="tbl">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr th:each="u : ${usuarios}">
+            <td th:text="${u.nomeUsuario}">nome</td>
+            <td th:text="${u.emailUsuario}">email</td>
+            <td>
+                <a th:href="@{'/usuariosview/detalhar/' + ${u.idUsuario}}">Detalhar</a>
+                <a th:href="@{'/usuariosview/editar/' + ${u.idUsuario}}">Editar</a>
+                <a th:href="@{'/usuariosview/excluir/' + ${u.idUsuario}}">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="stats">
+        Total: <strong th:text="${usuarios != null ? #lists.size(usuarios) : 0}">0</strong> •
+        Visíveis: <strong id="countVisible">0</strong>
+    </div>
+    <div>
+        <button id="toTop" class="btn" type="button">Topo</button>
+    </div>
+</footer>
+
+<script>
+    // Tema persistente (claro/escuro)
+    (function(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') root.classList.add('dark');
+      document.getElementById('toggleTheme').addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      });
+    })();
+
+    // Filtro instantâneo por texto
+    (function(){
+      const q = document.getElementById('q');
+      const tbody = document.getElementById('tbody');
+      const countVisible = document.getElementById('countVisible');
+      const rows = () => Array.from(tbody ? tbody.querySelectorAll('tr') : []);
+
+      function applyFilter() {
+        if (!tbody) return;
+        const term = q.value.trim().toLowerCase();
+        let visible = 0;
+        rows().forEach(tr => {
+          const txt = tr.innerText.toLowerCase();
+          const show = term === '' || txt.includes(term);
+          tr.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+        countVisible.textContent = String(visible);
+      }
+
+      if (q) {
+        q.addEventListener('input', applyFilter);
+        window.addEventListener('DOMContentLoaded', applyFilter);
+        // Atalho "/" para focar a busca
+        window.addEventListener('keydown', (e) => {
+          if (e.key === '/' && document.activeElement !== q) {
+            e.preventDefault(); q.focus();
+          }
+        });
+      }
+    })();
+
+    // Voltar ao topo
+    (function(){
+      const toTop = document.getElementById('toTop');
+      if (toTop) toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+      // ajusta "Visíveis" após total renderizado
+      window.addEventListener('load', () => {
+        const q = document.getElementById('q');
+        if (q) q.dispatchEvent(new Event('input'));
+      });
+    })();
+</script>
 </body>
 </html>

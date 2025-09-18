@@ -4,84 +4,206 @@
     <meta charset="UTF-8" />
     <title>Detalhes do Usuário</title>
     <style>
-        body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
-        .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; max-width: 720px; }
+        :root{
+          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --card:#fff; --btn:#fff; --thead:#f8f8f8;
+        }
+        .dark{
+          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --card:#0b1220; --btn:#0b1220; --thead:#0b1220;
+        }
+        html,body{height:100%}
+        body { font-family: system-ui, Arial, sans-serif; margin:0; background:var(--bg); color:var(--fg);
+               display:flex; flex-direction:column; min-height:100% }
+
+        header{position:sticky; top:0; z-index:10; background:var(--bg);
+               border-bottom:1px solid var(--border); padding:12px 24px}
+        .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px}
+        .brand{font-weight:700}
+        nav a{margin-right:8px; text-decoration:none; border:1px solid var(--border); padding:6px 10px; border-radius:8px; color:var(--fg)}
+        .actions-bar{display:flex; gap:12px; align-items:center}
+        input[type="search"]{border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+                             background:transparent; color:var(--fg); min-width:260px}
+        .btn{border:1px solid var(--border); background:var(--btn); color:var(--fg);
+             padding:6px 10px; border-radius:8px; cursor:pointer}
+        .link-btn{padding:8px 12px; border:1px solid var(--border); text-decoration:none; color:var(--fg); border-radius:8px; background:var(--btn)}
+
+        main{flex:1; padding:24px}
+        h1{margin:0 0 16px 0}
+
+        .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; max-width: 720px; background:var(--card) }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .item { margin-bottom: 8px; }
-        .label { font-weight: 600; color: #555; display:block; margin-bottom: 4px; }
-        .actions { margin-top: 16px; display: flex; gap: 8px; }
-        a.btn { padding: 8px 12px; border: 1px solid #333; text-decoration: none; }
+        .label { font-weight: 600; color: var(--muted); display:block; margin-bottom: 4px; }
+        .actions { margin-top: 16px; display: flex; gap: 8px; flex-wrap:wrap }
+        a.btn { padding: 8px 12px; border: 1px solid var(--border); text-decoration: none; color:var(--fg) }
         .password-wrap { display:flex; gap:8px; align-items:center; }
-        .password-wrap input { width: 100%; padding: 8px; border:1px solid #ddd; border-radius:6px; }
-        .toggle-btn { padding: 6px 10px; border:1px solid #333; background:#fff; cursor:pointer; }
+        .password-wrap input { width: 100%; padding: 8px; border:1px solid #ddd; border-radius:6px; background:transparent; color:var(--fg) }
+        .toggle-btn { padding: 6px 10px; border:1px solid var(--border); background:var(--btn); cursor:pointer; color:var(--fg) }
+
+        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; gap:16px; justify-content:space-between; align-items:center; flex-wrap:wrap}
+        .stats{color:var(--muted)}
     </style>
 </head>
 <body>
-<h1>Detalhes do Usuário</h1>
 
-<div class="card" th:with="u=${usuario}">
-    <div class="item"><span class="label">ID</span><span th:text="${u.idUsuario}">id</span></div>
-
-    <div class="row">
-        <div class="item">
-            <span class="label">Nome</span>
-            <span th:text="${u.nomeUsuario}">Nome</span>
-        </div>
-        <div class="item">
-            <span class="label">Email</span>
-            <span th:text="${u.emailUsuario}">email@exemplo.com</span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="item">
-            <span class="label">CPF</span>
-            <span th:text="${u.cpfUsuario}">000.000.000-00</span>
-        </div>
-        <div class="item">
-            <span class="label">Telefone</span>
-            <span th:text="${u.telefoneUsuario}">(00) 90000-0000</span>
+<!-- HEADER com navegação, busca e alternância de tema -->
+<header>
+    <div class="topbar">
+        <div class="brand">MottuSense • Usuário</div>
+        <nav>
+            <a th:href="@{/usuariosview/listar}">Voltar</a>
+            <a th:href="@{/filiaisview/listar}">Filiais</a>
+        </nav>
+        <div class="actions-bar">
+            <input id="q" type="search" placeholder="Atalho: / — filtrar por nome/email" aria-label="Pesquisar">
+            <button id="toggleTheme" class="btn" type="button" title="Alternar tema">Tema</button>
+            <a class="link-btn" th:href="@{/usuariosview/listar}">Voltar à lista</a>
         </div>
     </div>
+</header>
 
-    <div class="item">
-        <span class="label">Data de Nascimento</span>
-        <span th:text="${u.dataNascimentoUsuario != null ? #temporals.format(u.dataNascimentoUsuario, 'dd/MM/yyyy') : '-'}">01/01/2000</span>
-    </div>
+<main>
+    <h1>Detalhes do Usuário</h1>
 
-    <!-- Senha (oculta por padrão, somente leitura) -->
-    <div class="item">
-        <span class="label">Senha</span>
-        <div class="password-wrap">
-            <input id="senhaUsuario"
-                   type="password"
-                   th:value="${u.senhaUsuario}"
-                   readonly
-                   aria-label="Senha do usuário" />
-            <button type="button" class="toggle-btn" onclick="toggleSenha()">Mostrar</button>
+    <div class="card" th:with="u=${usuario}">
+        <div class="item"><span class="label">ID</span><span id="userId" th:text="${u.idUsuario}">id</span></div>
+
+        <div class="row">
+            <div class="item">
+                <span class="label">Nome</span>
+                <span id="userName" th:text="${u.nomeUsuario}">Nome</span>
+            </div>
+            <div class="item">
+                <span class="label">Email</span>
+                <span id="userEmail" th:text="${u.emailUsuario}">email@exemplo.com</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="item">
+                <span class="label">CPF</span>
+                <span th:text="${u.cpfUsuario}">000.000.000-00</span>
+            </div>
+            <div class="item">
+                <span class="label">Telefone</span>
+                <span th:text="${u.telefoneUsuario}">(00) 90000-0000</span>
+            </div>
+        </div>
+
+        <div class="item">
+            <span class="label">Data de Nascimento</span>
+            <span th:text="${u.dataNascimentoUsuario != null ? #temporals.format(u.dataNascimentoUsuario, 'dd/MM/yyyy') : '-'}">01/01/2000</span>
+        </div>
+
+        <!-- Senha (oculta por padrão, somente leitura) -->
+        <div class="item">
+            <span class="label">Senha</span>
+            <div class="password-wrap">
+                <input id="senhaUsuario"
+                       type="password"
+                       th:value="${u.senhaUsuario}"
+                       readonly
+                       aria-label="Senha do usuário" />
+                <button type="button" class="toggle-btn" onclick="toggleSenha()">Mostrar</button>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a class="btn" th:href="@{/usuariosview/listar}">Voltar</a>
+            <a class="btn" th:href="@{'/usuariosview/editar/' + ${u.idUsuario}}">Editar</a>
+            <a class="btn" th:href="@{'/usuariosview/excluir/' + ${u.idUsuario}}"
+               onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
         </div>
     </div>
+</main>
 
+<!-- FOOTER com utilidades -->
+<footer th:with="u=${usuario}">
+    <div class="stats">
+        <strong th:text="${u.nomeUsuario}">Usuário</strong> •
+        Email: <span th:text="${u.emailUsuario}">email@exemplo.com</span>
+    </div>
     <div class="actions">
-        <a class="btn" th:href="@{/usuariosview/listar}">Voltar</a>
-        <a class="btn" th:href="@{'/usuariosview/editar/' + ${u.idUsuario}}">Editar</a>
-        <a class="btn" th:href="@{'/usuariosview/excluir/' + ${u.idUsuario}}"
-           onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+        <button class="btn" type="button" id="copyId">Copiar ID</button>
+        <button class="btn" type="button" id="copyEmail">Copiar Email</button>
+        <button class="btn" type="button" id="exportJson">Exportar JSON</button>
+        <button class="btn" type="button" id="printPage">Imprimir</button>
+        <button class="btn" type="button" id="toTop">Topo</button>
     </div>
-</div>
+</footer>
 
 <script>
-    function toggleSenha() {
-        const input = document.getElementById('senhaUsuario');
-        const btn = event.currentTarget;
-        if (input.type === 'password') {
-            input.type = 'text';
-            btn.textContent = 'Ocultar';
-        } else {
-            input.type = 'password';
-            btn.textContent = 'Mostrar';
+    // Alternância de tema com persistência
+    (function(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') root.classList.add('dark');
+      document.getElementById('toggleTheme').addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      });
+    })();
+
+    // Atalho "/" para focar a busca
+    (function(){
+      const q = document.getElementById('q');
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== q) {
+          e.preventDefault(); q?.focus();
         }
+      });
+      // filtro simples no DOM (nome/email)
+      const emailEl = document.getElementById('userEmail');
+      const nameEl  = document.getElementById('userName');
+      q?.addEventListener('input', () => {
+        const term = q.value.toLowerCase();
+        const visible = (nameEl?.innerText.toLowerCase().includes(term) || emailEl?.innerText.toLowerCase().includes(term) || term==='');
+        document.querySelector('.card').style.display = visible ? '' : 'none';
+      });
+    })();
+
+    // Mostrar/ocultar senha
+    function toggleSenha() {
+      const input = document.getElementById('senhaUsuario');
+      const btn = event.currentTarget;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'Ocultar';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'Mostrar';
+      }
     }
+
+    // Utilidades do rodapé
+    (function(){
+      const userId   = document.getElementById('userId')?.innerText || '';
+      const userName = document.getElementById('userName')?.innerText || '';
+      const userEmail= document.getElementById('userEmail')?.innerText || '';
+      document.getElementById('copyId')?.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(userId); alert('ID copiado!'); } catch {}
+      });
+      document.getElementById('copyEmail')?.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(userEmail); alert('Email copiado!'); } catch {}
+      });
+      document.getElementById('exportJson')?.addEventListener('click', () => {
+        // Gera JSON apenas com os campos que estão visíveis na tela
+        const data = {
+          idUsuario: userId,
+          nomeUsuario: userName,
+          emailUsuario: userEmail,
+          cpfUsuario: document.querySelector('.card .row:nth-of-type(2) .item:nth-of-type(1) span:nth-of-type(2)')?.innerText || '',
+          telefoneUsuario: document.querySelector('.card .row:nth-of-type(2) .item:nth-of-type(2) span:nth-of-type(2)')?.innerText || '',
+          dataNascimentoUsuario: document.querySelector('.card .item:nth-of-type(4) span:nth-of-type(2)')?.innerText || ''
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `usuario-${userId || 'detalhe'}.json`;
+        document.body.appendChild(a); a.click(); a.remove();
+      });
+      document.getElementById('printPage')?.addEventListener('click', () => window.print());
+      document.getElementById('toTop')?.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+    })();
 </script>
 </body>
 </html>
