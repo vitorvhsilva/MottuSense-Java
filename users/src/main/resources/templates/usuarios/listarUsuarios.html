@@ -3,41 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Usuários</title>
-    <style>
-        :root{
-          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --thead:#f8f8f8;
-          --info-bg:#e0f2fe; --info-fg:#075985;
-        }
-        .dark{
-          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --thead:#0b1220;
-          --info-bg:#083344; --info-fg:#a5f3fc;
-        }
-        html,body{height:100%}
-        body{margin:0; font-family:system-ui, Arial, sans-serif; background:var(--bg); color:var(--fg);
-             display:flex; flex-direction:column; min-height:100%}
-
-        header{position:sticky; top:0; z-index:10; background:var(--bg);
-               border-bottom:1px solid var(--border); padding:12px 24px}
-        .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px}
-        .brand{font-weight:700}
-        nav a{margin-right:8px; text-decoration:none; border:1px solid var(--border); padding:6px 10px; border-radius:8px; color:var(--fg)}
-        .actions-bar{display:flex; gap:12px; align-items:center}
-        input[type="search"]{border:1px solid var(--border); border-radius:8px; padding:8px 10px;
-                             background:transparent; color:var(--fg); min-width:260px}
-        .btn{border:1px solid var(--border); background:transparent; color:var(--fg);
-             padding:6px 10px; border-radius:8px; cursor:pointer}
-
-        main{flex:1; padding:24px}
-        h1{margin:0 0 12px 0}
-        .alert{background:var(--info-bg); color:var(--info-fg); padding:10px; border-radius:8px; margin:12px 0}
-
-        table{width:100%; border-collapse:collapse; margin-top:12px}
-        thead th{background:var(--thead)}
-        th, td{border:1px solid #ddd; padding:8px; text-align:left}
-
-        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; gap:16px; justify-content:space-between; align-items:center}
-        .stats{color:var(--muted)}
-    </style>
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}"/>
 </head>
 <body>
 

@@ -1,0 +1,200 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --muted: #666;
+  --border: #333;
+  --accent: #111;
+  --success-bg: #dcfce7;
+  --success-fg: #166534;
+  --error-bg: #fee2e2;
+  --error-fg: #991b1b;
+}
+.dark {
+  --bg: #0f172a;
+  --fg: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #475569;
+  --accent: #e5e7eb;
+  --success-bg: #064e3b;
+  --success-fg: #bbf7d0;
+  --error-bg: #7f1d1d;
+  --error-fg: #fecaca;
+}
+
+html, body { height: 100%; }
+body {
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Header */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { font-weight: 700; letter-spacing: .3px; }
+nav a {
+  color: var(--fg);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 6px 10px; border-radius: 8px; margin-left: 8px;
+}
+.toggle {
+  margin-left: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Conteúdo */
+main { flex: 1; padding: 24px; }
+form { max-width: 760px; }
+.field { margin-bottom: 12px; }
+label { display:block; font-weight:600; margin-bottom:6px; }
+input {
+  width:100%;
+  padding:8px;
+  box-sizing:border-box;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:transparent;
+  color:var(--fg);
+}
+.actions { margin-top:16px; display:flex; gap:8px; }
+.btn, .link {
+  padding:8px 12px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--fg);
+  cursor:pointer;
+  text-decoration:none;
+  border-radius:8px;
+}
+.btn:hover, nav a:hover, .toggle:hover, .link:hover { filter: brightness(1.05); }
+.alert-success {
+  background:var(--success-bg);
+  color:var(--success-fg);
+  padding:10px;
+  border-radius:8px;
+  margin:12px 0;
+}
+.alert-error {
+  background:var(--error-bg);
+  color:var(--error-fg);
+  padding:10px;
+  border-radius:8px;
+  margin:12px 0;
+}
+.muted { color: var(--muted); }
+.error { color: #b00020; font-size: .9rem; margin-top: 4px; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 24px;
+  font-size: .95rem;
+  color: var(--muted);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 8px; display:inline-block; background: #10b981; /* verde ok */
+}
+.dirty .dot { background: #f59e0b; } /* amarelo quando há alterações */
+
+/* Tecla de atalho (se usar em tooltips/ajuda) */
+kbd {
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 6px;
+  font-size: .85rem;
+}
+
+/* ======= Ajustes/adições para a página LISTAR FILIAIS ======= */
+
+/* novas vars usadas no cabeçalho da tabela */
+:root { --table-head: #f8f8f8; }
+.dark  { --table-head: #0b1220; }
+
+/* Header desta página: fica fixo no topo e mantém o fundo do tema */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+}
+
+.topbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* botões/links auxiliares */
+.btn-link {
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* busca rápida */
+input[type="search"] {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--fg);
+  min-width: 260px;
+}
+
+/* tabela */
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: var(--table-head); }
+
+/* mensagens e textos */
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success-fg);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+.muted { color: var(--muted); }
+
+/* ações por linha (editar/excluir) */
+.actions a,
+.actions form {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Footer específico da lista */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.stats { color: var(--muted); }
+.right { display: flex; gap: 8px; align-items: center; }

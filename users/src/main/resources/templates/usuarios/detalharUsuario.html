@@ -3,45 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Detalhes do Usuário</title>
-    <style>
-        :root{
-          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --card:#fff; --btn:#fff; --thead:#f8f8f8;
-        }
-        .dark{
-          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --card:#0b1220; --btn:#0b1220; --thead:#0b1220;
-        }
-        html,body{height:100%}
-        body { font-family: system-ui, Arial, sans-serif; margin:0; background:var(--bg); color:var(--fg);
-               display:flex; flex-direction:column; min-height:100% }
-
-        header{position:sticky; top:0; z-index:10; background:var(--bg);
-               border-bottom:1px solid var(--border); padding:12px 24px}
-        .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px}
-        .brand{font-weight:700}
-        nav a{margin-right:8px; text-decoration:none; border:1px solid var(--border); padding:6px 10px; border-radius:8px; color:var(--fg)}
-        .actions-bar{display:flex; gap:12px; align-items:center}
-        input[type="search"]{border:1px solid var(--border); border-radius:8px; padding:8px 10px;
-                             background:transparent; color:var(--fg); min-width:260px}
-        .btn{border:1px solid var(--border); background:var(--btn); color:var(--fg);
-             padding:6px 10px; border-radius:8px; cursor:pointer}
-        .link-btn{padding:8px 12px; border:1px solid var(--border); text-decoration:none; color:var(--fg); border-radius:8px; background:var(--btn)}
-
-        main{flex:1; padding:24px}
-        h1{margin:0 0 16px 0}
-
-        .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; max-width: 720px; background:var(--card) }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .item { margin-bottom: 8px; }
-        .label { font-weight: 600; color: var(--muted); display:block; margin-bottom: 4px; }
-        .actions { margin-top: 16px; display: flex; gap: 8px; flex-wrap:wrap }
-        a.btn { padding: 8px 12px; border: 1px solid var(--border); text-decoration: none; color:var(--fg) }
-        .password-wrap { display:flex; gap:8px; align-items:center; }
-        .password-wrap input { width: 100%; padding: 8px; border:1px solid #ddd; border-radius:6px; background:transparent; color:var(--fg) }
-        .toggle-btn { padding: 6px 10px; border:1px solid var(--border); background:var(--btn); cursor:pointer; color:var(--fg) }
-
-        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; gap:16px; justify-content:space-between; align-items:center; flex-wrap:wrap}
-        .stats{color:var(--muted)}
-    </style>
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}"/>
 </head>
 <body>
 

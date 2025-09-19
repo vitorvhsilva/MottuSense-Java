@@ -3,51 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Filiais</title>
-    <style>
-        :root {
-          --bg:#ffffff; --fg:#111; --muted:#666; --border:#333; --table-head:#f8f8f8;
-          --success-bg:#dcfce7; --success-fg:#166534;
-        }
-        .dark {
-          --bg:#0f172a; --fg:#e5e7eb; --muted:#9ca3af; --border:#475569; --table-head:#0b1220;
-          --success-bg:#064e3b; --success-fg:#bbf7d0;
-        }
-
-        html,body{height:100%}
-        body{margin:0; font-family:system-ui, Arial, sans-serif; background:var(--bg); color:var(--fg);
-             display:flex; flex-direction:column; min-height:100%}
-
-        /* Header */
-        header{position:sticky; top:0; z-index:10; background:var(--bg);
-               border-bottom:1px solid var(--border); padding:12px 24px;}
-        .topbar{display:flex; gap:16px; align-items:center; justify-content:space-between;}
-        .brand{font-weight:700}
-        .actions-bar{display:flex; gap:12px; align-items:center;}
-        .btn, .btn-link, nav a{
-          border:1px solid var(--border); background:transparent; color:var(--fg);
-          padding:6px 10px; border-radius:8px; cursor:pointer; text-decoration:none;
-        }
-        .btn-link{border:none; text-decoration:underline; padding:0}
-        nav a{margin-right:8px}
-        input[type="search"]{
-          border:1px solid var(--border); border-radius:8px; padding:8px 10px; background:transparent; color:var(--fg);
-          min-width:260px;
-        }
-
-        /* Main / table */
-        main{flex:1; padding:24px}
-        table{width:100%; border-collapse:collapse}
-        th, td{border:1px solid #ddd; padding:8px; text-align:left}
-        th{background:var(--table-head)}
-        .alert-success{background:var(--success-bg); color:var(--success-fg); padding:10px; border-radius:8px; margin:12px 0}
-        .muted{color:var(--muted)}
-        .actions a, .actions form{display:inline-block; margin-right:8px}
-
-        /* Footer */
-        footer{border-top:1px solid var(--border); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px}
-        .stats{color:var(--muted)}
-        .right{display:flex; gap:8px; align-items:center}
-    </style>
+    <link rel="stylesheet" th:href="@{/css/filiais.css}"/>
 </head>
 <body>
 
