@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,33 +18,49 @@ public class SecurityConfig {
 
 
     @Bean
-    SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(
-                        authorizeConfig -> {
-                            authorizeConfig.requestMatchers("/usuariosview/listar").permitAll();
-                            authorizeConfig.requestMatchers("/logout").permitAll();
-                            authorizeConfig.anyRequest().authenticated();
-                        })
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
+                    auth.requestMatchers("/login", "/logout").permitAll();
+                    auth.requestMatchers("/usuariosview/listar").permitAll();
+                    auth.anyRequest().authenticated();
+                })
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/usuariosview/listar   ", true)
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/usuariosview/listar", true)
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/autenticacao/logout")
                         .permitAll()
                 )
                 .build();
     }
 
+
+
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("teste")
-                .roles("ADMIN, USER")
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    UserDetailsService userDetailsService(PasswordEncoder encoder) {
+        UserDetails admin = User.withUsername("admin")
+                .password(encoder.encode("admin123"))
+                .roles("ADMIN", "USER")
                 .build();
-        return new InMemoryUserDetailsManager(user); 
+
+        UserDetails user = User.withUsername("user")
+                .password(encoder.encode("teste"))
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
 }

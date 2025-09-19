@@ -1,9 +1,5 @@
 spring:
   security:
-    user:
-      name: user
-      password: teste
-      roles: ADMIN, USER
     oauth2:
       client:
         registration:
