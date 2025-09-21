@@ -235,3 +235,42 @@ tr:hover td { background: rgba(34,197,94,.04); }
 /* Footer específico da lista */
 .stats { color: var(--muted); }
 .right { display: flex; gap: 8px; align-items: center; }
+
+/* form inline do logout */
+.logout-form{ margin:0; display:inline-block; }
+
+/* Botão ghost reutilizável (outline neutro no tema verde) */
+.btn-ghost{
+  height:38px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid var(--panel-border, var(--border));
+  background:var(--btn);
+  color:var(--fg);
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight:600; line-height:36px; text-decoration:none;
+  transition: transform .03s ease, filter .2s ease, border-color .15s ease,
+             background .15s ease, box-shadow .15s ease;
+}
+.btn-ghost:hover{
+  border-color:var(--accent);
+  background:rgba(34,197,94,.06);
+  filter:brightness(1.03);
+}
+.btn-ghost:active{ transform: translateY(1px); }
+.btn-ghost:focus{ outline:none; box-shadow:0 0 0 4px rgba(34,197,94,.16); }
+
+/* Tons de perigo suaves p/ hover do logout */
+:root{ --danger:#ef4444; }     /* red-500 */
+.dark{ --danger:#f87171; }     /* red-400 para contraste no dark */
+
+/* Logout: começa neutro, fica “destrutivo” só no hover */
+.btn-logout{}
+.btn-logout:hover{
+  border-color:var(--danger);
+  background:rgba(239,68,68,.06);
+  color:var(--danger);
+}
+.dark .btn-logout:hover{
+  background:rgba(127,29,29,.12);
+}
