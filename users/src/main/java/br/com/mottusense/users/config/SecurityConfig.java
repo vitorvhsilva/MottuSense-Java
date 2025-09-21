@@ -2,6 +2,8 @@ package br.com.mottusense.users.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+@EnableMethodSecurity(prePostEnabled = true)
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,13 +22,16 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
-                    auth.requestMatchers("/login", "/logout").permitAll();
-                    auth.requestMatchers("/usuariosview/listar").permitAll();
-                    auth.anyRequest().authenticated();
-                })
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+
+                        // LISTAGENS: liberadas para USER e ADMIN
+                        .requestMatchers(HttpMethod.GET, "/usuariosview", "/usuariosview/listar").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/filiaisview", "/filiaisview/listar").hasAnyRole("USER","ADMIN")
+
+                        .anyRequest().authenticated()
+                )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
@@ -37,8 +43,8 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/logout")
                         .permitAll()
-                )
-                .build();
+                );
+        return http.build();
     }
 
 

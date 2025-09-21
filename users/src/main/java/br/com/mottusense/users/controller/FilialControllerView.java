@@ -9,6 +9,7 @@ import br.com.mottusense.users.service.LocalizacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class FilialControllerView {
     private final LocalizacaoService localizacaoService;
     private final ModelMapper mapper;
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/listar")
     public String listar(@RequestParam(value = "sucesso", required = false) String sucesso,
                          Model model) {
@@ -39,12 +41,14 @@ public class FilialControllerView {
         return "filiais/listar";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/adicionar")
     public String adicionar(Model model) {
         model.addAttribute("filial", new CadastroFilialRequestDTO());
         return "filiais/adicionar";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("filial") CadastroFilialRequestDTO dto,
                          BindingResult br,
@@ -69,6 +73,7 @@ public class FilialControllerView {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable String id, Model model) {
         Filial filial = filialService.obterPorId(id);
@@ -79,6 +84,7 @@ public class FilialControllerView {
         return "filiais/editarFilial";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/atualizar/{id}")
     public String atualizar(@PathVariable String id,
                             @Valid @ModelAttribute("filial") AtualizarFilialRequestDTO dto,
@@ -100,6 +106,7 @@ public class FilialControllerView {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/excluir/{id}")
     public String excluir(@PathVariable String id, RedirectAttributes ra) {
         filialService.deletarPorId(id);

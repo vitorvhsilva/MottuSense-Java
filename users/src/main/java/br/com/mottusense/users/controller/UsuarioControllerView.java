@@ -7,6 +7,7 @@ import br.com.mottusense.users.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,18 +23,21 @@ public class UsuarioControllerView {
     private final UsuarioService usuarioService;
     private final ModelMapper mapper;
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/listar")
     public String listarUsuarios(Model model) {
         model.addAttribute("usuarios", usuarioService.listarUsuarios());
         return "usuarios/listarUsuarios";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/adicionar")
     public String mostrarFormularioAdicao(Model model) {
         model.addAttribute("usuario", new CadastroUsuarioRequestDTO());
         return "usuarios/formularioUsuario";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/salvar")
     public String salvarUsuario(@Valid @ModelAttribute("usuario") CadastroUsuarioRequestDTO dto,
                                 BindingResult result,
@@ -47,6 +51,7 @@ public class UsuarioControllerView {
         return "redirect:/usuariosview/listar";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEdicao(@PathVariable String id, Model model) {
         Usuario usuario = usuarioService.obterPorId(id);
@@ -58,6 +63,7 @@ public class UsuarioControllerView {
         return "usuarios/editarUsuario";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/atualizar/{id}")
     public String atualizarUsuario(@PathVariable String id,
                                    @Valid @ModelAttribute("usuario") AtualizarUsuarioRequestDTO dto,
@@ -73,12 +79,14 @@ public class UsuarioControllerView {
         return "redirect:/usuariosview/listar";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/excluir/{id}")
     public String excluirUsuario(@PathVariable String id) {
         usuarioService.deletarPorId(id);
         return "redirect:/usuariosview/listar";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/detalhar/{id}")
     public String detalharUsuario(@PathVariable String id, Model model) {
         model.addAttribute("usuario", usuarioService.obterPorId(id));
