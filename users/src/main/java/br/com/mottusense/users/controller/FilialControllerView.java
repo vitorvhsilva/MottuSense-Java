@@ -41,14 +41,14 @@ public class FilialControllerView {
         return "filiais/listar";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/adicionar")
     public String adicionar(Model model) {
         model.addAttribute("filial", new CadastroFilialRequestDTO());
         return "filiais/adicionar";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("filial") CadastroFilialRequestDTO dto,
                          BindingResult br,
@@ -73,7 +73,7 @@ public class FilialControllerView {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable String id, Model model) {
         Filial filial = filialService.obterPorId(id);
@@ -84,7 +84,7 @@ public class FilialControllerView {
         return "filiais/editarFilial";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/atualizar/{id}")
     public String atualizar(@PathVariable String id,
                             @Valid @ModelAttribute("filial") AtualizarFilialRequestDTO dto,
@@ -106,7 +106,7 @@ public class FilialControllerView {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/excluir/{id}")
     public String excluir(@PathVariable String id, RedirectAttributes ra) {
         filialService.deletarPorId(id);

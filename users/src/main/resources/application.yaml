@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: users
+
+  datasource:
+    url: jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL
+    username: RM556405
+    password: Fiap#2025
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    jpa:
+      database-platform: org.hibernate.dialect.OracleDialect
+      properties:
+        hibernate.format_sql: true
+    # spring.jpa.show-sql: true
+    # spring.jpa.hibernate.ddl-auto: create-drop
+
+  port: 8080
+
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    clean-disabled: true
+    out-of-order: false
+    locations: classpath:db/migration
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1090689393708-mbmtf324es75n9mh9rmoi8ggtu0j2fli.apps.googleusercontent.com
+            client-secret: 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
