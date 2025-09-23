@@ -30,4 +30,12 @@ public class ConfiguracaoUsuarioService {
 
         return configuracao;
     }
+
+
+    public ConfiguracaoUsuario buscarPorId(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ConfiguracaoUsuarioNaoEncontradaException(
+                        "Configuração do usuário não encontrada pelo id!"));
+    }
+
 }

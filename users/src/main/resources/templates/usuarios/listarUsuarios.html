@@ -54,6 +54,11 @@
                 <a th:href="@{'/usuariosview/detalhar/' + ${u.idUsuario}}">Detalhar</a>
                 <a th:href="@{'/usuariosview/editar/' + ${u.idUsuario}}">Editar</a>
                 <a th:href="@{'/usuariosview/excluir/' + ${u.idUsuario}}">Excluir</a>
+                <a class="btn btn-config"
+                   th:href="@{/configuracoesview/editar/{id}(id=${u.configuracaoUsuario.idConfiguracaoUsuario})}">
+                    Configuração
+                </a>
+
             </td>
         </tr>
         </tbody>

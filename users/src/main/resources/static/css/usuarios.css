@@ -298,3 +298,30 @@ footer{
 .dark .btn-logout:hover{
   background:rgba(127,29,29,.12); /* red-900 ~ */
 }
+
+/* Botão "Configuração" — destaque em verde, coerente com a paleta */
+.btn-config{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:8px;
+  height:32px;
+  padding:0 12px;
+  border-radius:10px;
+  border:1px solid transparent;
+  background:linear-gradient(135deg, var(--accent), #16a34a);
+  color:#0b1220;                 /* bom contraste sobre o verde */
+  font-weight:700;
+  line-height:30px;
+  cursor:pointer;
+  text-decoration:none;
+  transition: transform .03s ease, filter .2s ease, box-shadow .15s ease;
+}
+.btn-config:hover{
+  filter:brightness(1.04);
+  box-shadow:0 0 0 4px rgba(34,197,94,.16);
+}
+.btn-config:active{ transform:translateY(1px); }
+
+/* Dark mode já harmoniza porque usa as mesmas vars */
+.dark .btn-config{
+  color:#07130b;                 /* leve ajuste de contraste no dark */
+}
