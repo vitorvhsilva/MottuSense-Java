@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- HEADER com navegação, busca e alternância de tema -->
 <header>
     <div class="topbar">
         <div class="brand">MottuSense • Usuários</div>
@@ -32,9 +31,7 @@
             <h1 th:text="${titulo} ?: 'Adicionar Usuário'">Adicionar Usuário</h1>
         </div>
 
-        <!-- IMPORTANTE: ligado ao DTO CadastroUsuarioRequestDTO -->
         <form th:action="@{/usuariosview/salvar}" th:object="${usuario}" method="post" id="userForm" novalidate>
-            <!-- CSRF -->
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <div class="form-group">
@@ -104,7 +101,6 @@
     </div>
 </main>
 
-<!-- FOOTER com utilidades -->
 <footer>
     <div class="chip">Dica: use “/” para focar a busca • Tema persiste entre visitas</div>
     <div class="footer-actions">

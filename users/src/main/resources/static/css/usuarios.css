@@ -1,38 +1,32 @@
-/* ==== TEMA (consolidado) ==== */
 :root{
   --bg:#ffffff; --fg:#111; --muted:#666; --border:#e5e7eb; --thead:#f6f8fa;
   --info-bg:#e8f9ef; --info-fg:#166534;
 
-  --card:#ffffff;           /* painéis no claro */
+  --card:#ffffff;
   --btn:#ffffff;
-  --accent:#22c55e;         /* ação/primário */
+  --accent:#22c55e;
   --table-head-border:#e2e8f0;
 }
 
 .dark{
-  /* fundo esverdeado sóbrio (igual ao resto do app) */
   --bg:
     radial-gradient(1100px 700px at 18% -10%, #0c2017 0%, transparent 60%),
     radial-gradient(900px 540px at 120% 12%, #0a1d15 0%, transparent 60%),
     linear-gradient(160deg, #0a1110, #0e1714);
   --fg:#e5e7eb; --muted:#9ca3af; --border:#334155;
 
-  /* --- principais --- */
-  --card:#0f1a14;           /* << era azul #0b1220 — agora verde escuro */
+  --card:#0f1a14;
   --btn:#0f1a14;
   --accent:#22c55e;
 
-  /* tabela/alerts */
   --thead:#0f1a14;
   --table-head-border:#1b2a22;
   --info-bg:#064e3b; --info-fg:#bbf7d0;
 
-  /* superfícies internas (inputs) */
-  --panel:#0b1512;          /* levemente mais claro que o card */
+  --panel:#0b1512;
   --panel-border:#1b2a22;
 }
 
-/* ==== BASE ==== */
 html,body{height:100%}
 body{
   margin:0;
@@ -44,7 +38,6 @@ body{
   min-height:100%;
 }
 
-/* Header */
 header{
   position:sticky; top:0; z-index:10;
   background:var(--bg);
@@ -69,7 +62,6 @@ input[type="search"]{
   min-width:260px;
 }
 
-/* Botões */
 .btn{
   border:1px solid var(--border);
   background:transparent;
@@ -93,7 +85,6 @@ input[type="search"]{
 }
 .btn-link:hover{ text-decoration:none }
 
-/* Conteúdo */
 main{flex:1; padding:24px}
 h1{margin:0 0 12px 0; color:var(--fg)}
 .alert{
@@ -101,7 +92,6 @@ h1{margin:0 0 12px 0; color:var(--fg)}
   padding:10px; border-radius:8px; margin:12px 0;
 }
 
-/* Tabela (se houver nesta página) */
 table{width:100%; border-collapse:collapse; margin-top:12px}
 th, td{border:1px solid var(--border); padding:8px; text-align:left}
 thead th{
@@ -110,7 +100,6 @@ thead th{
   color:var(--fg);
 }
 
-/* ==== FORM CONTAINER / CARDS ==== */
 .form-container, form, .card{
   max-width:600px;
   margin:0 auto;
@@ -125,7 +114,6 @@ thead th{
   margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border);
 }
 
-/* >>> REMOVE qualquer resquício de “azul” no tema escuro <<< */
 .dark .form-container,
 .dark form,
 .dark .card{
@@ -133,7 +121,6 @@ thead th{
   border-color:var(--panel-border) !important;
 }
 
-/* Campos */
 .form-group{margin-bottom:15px}
 label{display:block; margin-bottom:6px; font-weight:700; color:var(--muted)}
 input, select{
@@ -148,18 +135,15 @@ input:focus, select:focus{
   box-shadow:0 0 0 4px rgba(34,197,94,.16);
 }
 
-/* Inputs com superfície interna no dark (tirando o “azul”) */
 .dark input, .dark select{
   background:var(--panel);
   border-color:var(--panel-border);
 }
 
-/* Linha de campos lado a lado */
 .inline{display:flex; gap:10px}
 .inline .form-group{flex:1}
 .error{color:#f87171; font-size:.9rem; margin-top:5px; display:block}
 
-/* Senha / medidor */
 .pw-row{display:flex; gap:8px; align-items:center}
 .pw-tools{display:flex; gap:8px; flex-wrap:wrap}
 .meter-wrap{height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; border:1px solid var(--border)}
@@ -168,7 +152,6 @@ input:focus, select:focus{
 .meter.ok{background:#f59e0b}
 .meter.good{background:#22c55e}
 
-/* Footer */
 footer{
   border-top:1px solid var(--border);
   padding:12px 24px;
@@ -178,7 +161,6 @@ footer{
 .stats{color:var(--muted)}
 .footer-actions{display:flex; gap:8px; flex-wrap:wrap}
 
-/* ===== Password field ===== */
 .password-wrap{
   display:flex;
   align-items:center;
@@ -191,7 +173,6 @@ footer{
   border-radius:8px;
 }
 
-/* Botão Mostrar/Ocultar (ghost) */
 .toggle-btn{
   height:38px;
   padding:0 12px;
@@ -208,17 +189,14 @@ footer{
 .toggle-btn:hover{ filter:brightness(1.05); border-color:var(--accent); }
 .toggle-btn:active{ transform:translateY(1px); }
 
-/* Dark: mesmos tons do resto do formulário */
 .dark .toggle-btn{ background:var(--btn); border-color:var(--panel-border); }
 
-/* Estado ativo (quando a senha estiver visível) */
 .toggle-btn.on{
   background:linear-gradient(135deg, var(--accent), #16a34a);
   color:#0b1220;
   border-color:transparent;
 }
 
-/* Botão "Cancelar" como ghost (outline), combinando com o tema */
 .actions .link{
   display:inline-flex;
   align-items:center;
@@ -241,31 +219,26 @@ footer{
 }
 .actions .link:hover{
   border-color:var(--accent);
-  background:rgba(34,197,94,.06);                 /* leve realce verde */
+  background:rgba(34,197,94,.06);
   filter:brightness(1.03);
 }
 .actions .link:active{ transform: translateY(1px); }
 
-/* Dark: mantém contraste e bordas no tom verde-escuro */
 .dark .actions .link{
   background:var(--btn);
   border-color:var(--panel-border, var(--border));
 }
 
-/* Foco acessível */
 .actions .link:focus{
   outline:none;
   box-shadow:0 0 0 4px rgba(34,197,94,.16);
 }
 
-/* vars de perigo (tons suaves p/ combinar com o tema) */
-:root      { --danger: #ef4444; }   /* red-500 */
-.dark      { --danger: #f87171; }   /* red-400 p/ contraste no dark */
+:root      { --danger: #ef4444; }
+.dark      { --danger: #f87171; }
 
-/* form inline */
 .logout-form{ margin:0; display:inline-block; }
 
-/* botão ghost padrão (se ainda não tiver) */
 .btn-ghost{
   height:38px;
   padding:0 14px;
@@ -285,21 +258,18 @@ footer{
 .btn-ghost:active{ transform: translateY(1px); }
 .btn-ghost:focus{ outline:none; box-shadow:0 0 0 4px rgba(34,197,94,.16); }
 
-/* logout com hover “destrutivo” sutil */
 .btn-logout{
-  /* começa como ghost neutro */
 }
 .btn-logout:hover{
   border-color:var(--danger);
   background:rgba(239,68,68,.06);
   color:var(--danger);
 }
-/* no dark deixamos um pouco mais visível */
+
 .dark .btn-logout:hover{
-  background:rgba(127,29,29,.12); /* red-900 ~ */
+  background:rgba(127,29,29,.12);
 }
 
-/* Botão "Configuração" — destaque em verde, coerente com a paleta */
 .btn-config{
   display:inline-flex; align-items:center; justify-content:center;
   gap:8px;
@@ -308,7 +278,7 @@ footer{
   border-radius:10px;
   border:1px solid transparent;
   background:linear-gradient(135deg, var(--accent), #16a34a);
-  color:#0b1220;                 /* bom contraste sobre o verde */
+  color:#0b1220;
   font-weight:700;
   line-height:30px;
   cursor:pointer;
@@ -321,7 +291,6 @@ footer{
 }
 .btn-config:active{ transform:translateY(1px); }
 
-/* Dark mode já harmoniza porque usa as mesmas vars */
 .dark .btn-config{
-  color:#07130b;                 /* leve ajuste de contraste no dark */
+  color:#07130b;
 }

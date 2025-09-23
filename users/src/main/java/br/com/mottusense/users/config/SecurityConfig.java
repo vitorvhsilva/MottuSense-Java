@@ -26,7 +26,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
 
-                        // LISTAGENS: liberadas para USER e ADMIN
                         .requestMatchers(HttpMethod.GET, "/usuariosview", "/usuariosview/listar").hasAnyRole("USER","ADMIN")
                         .requestMatchers(HttpMethod.GET, "/filiaisview", "/filiaisview/listar").hasAnyRole("USER","ADMIN")
 

@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER com navegação e tema -->
 <header>
     <div class="topbar">
         <div class="brand">MottuSense • Usuários</div>
@@ -24,22 +23,18 @@
 <main>
     <h1>Editar Usuário</h1>
 
-    <!-- Banner de sucesso -->
     <div class="alert-success" th:if="${sucesso} != null or ${param.sucesso} != null">
         <span th:text="${sucesso} ?: 'Usuário atualizado com sucesso'">Usuário atualizado com sucesso</span>
     </div>
 
-    <!-- ID vindo como atributo separado -->
     <p class="muted">ID: <span th:text="${idUsuario}">id</span></p>
 
     <form th:action="@{/usuariosview/atualizar/{id}(id=${idUsuario})}"
           th:object="${usuario}"
           method="post">
 
-        <!-- CSRF -->
         <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
 
-        <!-- Envia o ID no corpo sem depender do DTO -->
         <input type="hidden" name="idUsuario" th:value="${idUsuario}"/>
 
         <div class="field">
@@ -53,7 +48,6 @@
                 <label for="senhaUsuario" style="margin:0">Senha</label>
                 <small class="muted">Dica: use 12+ caracteres</small>
             </div>
-            <!-- mantém o MESMO name para não quebrar o binding do controller -->
             <input id="senhaUsuario"
                    type="password"
                    name="senhaUsuario"
@@ -78,7 +72,6 @@
     </form>
 </main>
 
-<!-- FOOTER com utilidades da página -->
 <footer>
     <div class="chip">Alterações não salvas geram aviso ao sair • Tema persiste</div>
     <div>

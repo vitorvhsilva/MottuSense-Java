@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER com navegação, busca e alternância de tema -->
 <header>
     <div class="topbar">
         <div class="brand">MottuSense • Usuário</div>
@@ -57,7 +56,6 @@
             <span th:text="${u.dataNascimentoUsuario != null ? #temporals.format(u.dataNascimentoUsuario, 'dd/MM/yyyy') : '-'}">01/01/2000</span>
         </div>
 
-        <!-- Senha (oculta por padrão, somente leitura) -->
         <div class="item">
             <span class="label">Senha</span>
             <div class="password-wrap">
@@ -79,7 +77,6 @@
     </div>
 </main>
 
-<!-- FOOTER com utilidades -->
 <footer th:with="u=${usuario}">
     <div class="stats">
         <strong th:text="${u.nomeUsuario}">Usuário</strong> •

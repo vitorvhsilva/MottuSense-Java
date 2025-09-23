@@ -1,13 +1,12 @@
 :root{
-  /* Paleta alinhada ao login (verdes) */
-  --bg1:#0a1110;        /* verde bem escuro */
-  --bg2:#0e1714;        /* variação escura */
-  --accent:#22c55e;     /* verde-500 */
-  --accent-2:#16a34a;   /* verde-600 */
-  --card:#0b1220cc;     /* glass */
-  --card-border:#2a3544;/* borda do card */
-  --fg:#e5e7eb;         /* texto principal */
-  --muted:#9ca3af;      /* texto secundário */
+  --bg1:#0a1110;
+  --bg2:#0e1714;
+  --accent:#22c55e;
+  --accent-2:#16a34a;
+  --card:#0b1220cc;
+  --card-border:#2a3544;
+  --fg:#e5e7eb;
+  --muted:#9ca3af;
   --shadow: 0 20px 60px rgba(0,0,0,.45);
 }
 

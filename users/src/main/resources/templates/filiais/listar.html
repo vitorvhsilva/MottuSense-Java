@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER com navegação, busca e tema -->
 <header>
     <div class="topbar">
         <div class="brand">MottuSense • Filiais</div>
@@ -31,7 +30,6 @@
 </header>
 
 <main>
-    <!-- Banner de sucesso vindo por query param (?sucesso=1) ou por atributo de modelo 'sucesso' -->
     <div class="alert-success" th:if="${param.sucesso} != null or ${sucesso} != null">
         <span th:text="${sucesso} ?: 'Operação realizada com sucesso'">Operação realizada com sucesso</span>
     </div>
@@ -61,7 +59,6 @@
             <td class="actions">
                 <a th:href="@{/filiaisview/editar/{id}(id=${f.idFilial})}">Editar</a>
 
-                <!-- Excluir via POST (com CSRF) -->
                 <form th:action="@{/filiaisview/excluir/{id}(id=${f.idFilial})}" method="post"
                       onsubmit="return confirm('Excluir esta filial?')">
                     <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
@@ -76,7 +73,6 @@
     </table>
 </main>
 
-<!-- FOOTER com contadores e exportação CSV -->
 <footer>
     <div class="stats">
         Total: <strong id="countTotal" th:text="${filiais != null ? #lists.size(filiais) : 0}">0</strong> •

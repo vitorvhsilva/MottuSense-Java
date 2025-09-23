@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER com navegação, busca e tema -->
 <header>
     <div class="topbar">
         <div class="brand">MottuSense • Usuários</div>
@@ -37,7 +36,6 @@
         Nenhum usuário encontrado.
     </div>
 
-    <!-- Mantive seu th:if original na tabela -->
     <table th:if="${!#lists.isEmpty(usuarios)}" border="1" id="tbl">
         <thead>
         <tr>
