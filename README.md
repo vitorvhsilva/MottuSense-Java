@@ -121,9 +121,31 @@ cd mottusense-users
 ```bash
 mvn clean install
 ```
-4. **Rodar a aplicação**
+4. **Rodar o seguinte comando no ORACLE SQL DEVELOPER na conta que está no application.yaml**
+   PURGE RECYCLEBIN;
+BEGIN
+  -- Deletar Constraints
+  FOR r IN (SELECT constraint_name, table_name 
+            FROM user_constraints 
+            WHERE constraint_type IN ('P', 'R', 'U')) LOOP
+    EXECUTE IMMEDIATE 'ALTER TABLE "' || r.table_name || '" DROP CONSTRAINT "' || r.constraint_name || '"';
+  END LOOP;
+  -- Deletar Sequences
+  FOR r IN (SELECT sequence_name FROM user_sequences) LOOP
+    EXECUTE IMMEDIATE 'DROP SEQUENCE "' || r.sequence_name || '"';
+  END LOOP;
+  -- Deletar Tabelas
+  FOR r IN (SELECT table_name FROM user_tables) LOOP
+    EXECUTE IMMEDIATE 'DROP TABLE "' || r.table_name || '" CASCADE CONSTRAINTS PURGE';
+  END LOOP;
+END;
+/
+
+ 
+
+5. **Rodar a aplicação**
 Rodar o arquivo UsersApplication
 
-5. **Acesse a API**
+6. **Acesse a API**
 
 A aplicação será iniciada em: http://localhost:8080
