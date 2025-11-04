@@ -122,6 +122,7 @@ cd mottusense-users
 mvn clean install
 ```
 4. **Rodar o seguinte comando no ORACLE SQL DEVELOPER na conta que está no application.yaml**
+   ----------------------------------------------------
    PURGE RECYCLEBIN;
 BEGIN
   -- Deletar Constraints
@@ -141,11 +142,9 @@ BEGIN
 END;
 /
 
- 
-
-5. **Rodar a aplicação**
+6. **Rodar a aplicação**
 Rodar o arquivo UsersApplication
 
-6. **Acesse a API**
+7. **Acesse a API**
 
 A aplicação será iniciada em: http://localhost:8080
