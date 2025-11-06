@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests -Dmaven.compiler.parameters=true
 
 # build api
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-alpine
 
 # criando usuario nao-root
 ENV APP_USER=appuser \
