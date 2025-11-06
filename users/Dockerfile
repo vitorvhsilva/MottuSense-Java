@@ -1,29 +1,28 @@
-# build maven
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+# ===== BUILD =====
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
+# (contexto na raiz) -> caminhos com users/
 COPY users/pom.xml .
 COPY users/src ./src
 RUN mvn -q clean package -DskipTests
 
-# build api
+# ===== RUNTIME (Alpine + JDK) =====
 FROM eclipse-temurin:21-jdk-alpine
 
-# criando usuario nao-root
 ENV APP_USER=appuser \
     APP_HOME=/opt/mottu-sense \
     APP_PORT=8080
 
-RUN useradd -m -d ${APP_HOME} ${APP_USER} && \
-    chown ${APP_USER}:${APP_USER} ${APP_HOME}
+# cria usuário/grupo no Alpine
+RUN addgroup -S ${APP_USER} \
+ && adduser -S ${APP_USER} -G ${APP_USER} -h ${APP_HOME} \
+ && mkdir -p ${APP_HOME}
 
-# setando workdir
 WORKDIR ${APP_HOME}
-RUN chown ${APP_USER}:${APP_USER} ${APP_HOME}
 
-COPY --from=build --chown=${APP_USER}:${APP_USER} /app/target/users-0.0.1-SNAPSHOT.jar ${APP_HOME}/app.jar
+# copia o JAR gerado já com dono correto
+COPY --from=build --chown=${APP_USER}:${APP_USER} /app/target/users-0.0.1-SNAPSHOT.jar ./app.jar
 
 USER ${APP_USER}
-
 EXPOSE ${APP_PORT}
-
-CMD ["java", "-jar", "app.jar"]
+CMD ["java","-jar","app.jar"]
