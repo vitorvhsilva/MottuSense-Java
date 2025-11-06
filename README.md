@@ -80,16 +80,19 @@ Alertas automáticos baseados no comportamento das motos:
 - spring-boot-starter-validation
 - spring-boot-starter-test
 - spring-boot-devtools
+- spring-boot-security
 
 ### Integração
 - spring-cloud-starter-openfeign
 
 ### Banco de Dados
 - Oracle JDBC Driver (ojdbc11)
+- Flyway
 
 ### Outras Bibliotecas
 - Lombok 1.18.36
 - ModelMapper 3.0.0
+- Thymeleaf
 
 ### Ambiente
 - Java 21
